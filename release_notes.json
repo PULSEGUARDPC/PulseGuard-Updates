@@ -1,29 +1,25 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.6.1",
-  "title": "What's New — Evidence & Accuracy",
-  "summary": "PulseGuard now correlates stability evidence to the exact test window, adds a pinned hardware-sensor provider path, deeper storage/network/battery/latency diagnostics, repair verification states, and stronger driver provenance.",
+  "version": "0.6.2",
+  "title": "What's New — Startup Recovery Hotfix",
+  "summary": "PulseGuard v0.6.2 fixes a PowerShell parser error in the expanded hardware-stability card layout that could prevent v0.6.1 from opening after update. All v0.6.1 Evidence & Accuracy features remain included.",
   "items": [
     {
-      "heading": "Evidence-first hardware telemetry",
-      "detail": "PulseGuard can automatically acquire and SHA-256 verify the pinned LibreHardwareMonitor v0.9.6 provider, while retaining native fallbacks and never guessing unavailable sensors."
+      "heading": "Startup parser hotfix",
+      "detail": "Fixed the malformed statement separator in the expanded 13-card stability-test layout that caused an Unexpected token n startup error in v0.6.1."
     },
     {
-      "heading": "Stability events are time-windowed",
-      "detail": "New WHEA and storage events are correlated to the exact 3-minute test window and kept separate from historical Windows event history."
+      "heading": "Updater recovery preserved",
+      "detail": "The launcher continues to run the updater before loading the main program, so an affected v0.6.1 installation can automatically receive this repair before the broken main script is parsed."
     },
     {
-      "heading": "Repairs now carry verification state",
-      "detail": "Repair evidence uses stable keys and explicit VERIFIED_FIXED, IMPROVED, NOT_FIXED, REBOOT_REQUIRED, UNVERIFIED, or NO_CHANGE_NEEDED outcomes instead of treating command completion as proof."
+      "heading": "Regression protection added",
+      "detail": "Release tests now reject literal PowerShell newline/carriage-return escape artifacts when they appear between executable statements, preventing this exact source-generation mistake from shipping again."
     },
     {
-      "heading": "Deeper PC diagnostics",
-      "detail": "Storage reliability, scheduling pressure, network path health, battery health, hardware inventory and truthful GPU-memory capability evidence are included without fake PASS states."
-    },
-    {
-      "heading": "Driver provenance hardened",
-      "detail": "Dynamic OEM discovery records source/parser/package/hardware-match provenance while retaining official-host, signature, hardware-ID, no-downgrade, backup and verification safety gates. BIOS auto-flashing remains blocked."
+      "heading": "v0.6.1 diagnostics retained",
+      "detail": "Evidence-first repair verification (including UNVERIFIED when proof is insufficient), exact-window WHEA/storage correlation, deeper hardware telemetry, driver provenance, storage/network/battery/latency diagnostics, PulseGuard video/audio tests, and conservative driver automation remain included. VRAM integrity still remains N/A without a trustworthy direct verifier, and no LatencyMon-style per-driver attribution is claimed."
     }
   ]
 }
