@@ -1,27 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.5",
-  "summary": "PulseGuard v0.6.5 removes the custom three-minute burn-in experiment and replaces it with a fast evidence-only Hardware Health Check. Sound, video/FPS, synthetic CPU/GPU/RAM stress, temperature-driver/PawnIO downloads and sensor-provider setup are removed. The release also safely cleans stale partial-download remnants and fixes the protection sidebar so it resolves real-time status without requiring a Full Health Scan.",
+  "version": "0.6.6",
+  "summary": "PulseGuard v0.6.6 polishes Hardware Health into a clearer customer-facing diagnostic without changing the checks that v0.6.5 proved reliable.",
   "sections": [
     {
-      "heading": "Hardware Health Check",
-      "detail": "Checks only evidence PulseGuard can prove reliably: Windows storage health, recent WHEA hardware events, BSOD history, Device Manager/driver health, LAN/network state and battery health on laptops. No synthetic CPU/GPU/RAM burn-in is performed; extended burn-in belongs in a dedicated tool such as BurnInTest."
+      "heading": "Clear warning reason",
+      "detail": "The Hardware Health summary now explains why Overall is WARNING or FAIL. A warning caused only by crash history is labeled as historical crash / BSOD evidence rather than implying the current hardware failed."
     },
     {
-      "heading": "Removed unreliable test surface",
-      "detail": "The sound test, custom video/FPS decoder test, custom 2D/3D stress loop, temperature card, LibreHardwareMonitor/PawnIO sensor-provider download path and three-minute worker are removed rather than kept as noisy or misleading diagnostics."
+      "heading": "Meaningful evidence labels",
+      "detail": "Generic Local Windows evidence labels are replaced with SMART / Windows storage reliability, Windows WHEA event log, BugCheck + minidump history, Device Manager / PnP status, Gateway + DNS + Internet, and Windows battery telemetry."
     },
     {
-      "heading": "Cleaner partial-download handling",
-      "detail": "Deep Clean may remove only real *.crdownload, *.part, *.partial and *.download files in the current user's Downloads folder when they are older than 12 hours. Completed downloads and all other Downloads content remain protected."
+      "heading": "Plain-English details",
+      "detail": "Storage and other rows use plain-English customer wording, the Count column is now Findings with explicit 0 or N/A markers, and raw-looking disk status strings are no longer the primary explanation."
     },
     {
-      "heading": "Protection status UI fix",
-      "detail": "The real-time protection sidebar now shows CHECKING briefly and performs a lightweight Defender status query after the window opens, instead of leaving NOT SCANNED until a Full Health Scan is run."
+      "heading": "Historical crash context",
+      "detail": "Selecting Crash / BSOD History now shows recent bugcheck timestamps, codes, minidump evidence, and an explicit note that historical crash evidence is not proof of a current hardware failure."
     },
     {
-      "heading": "Launcher/release hardening",
-      "detail": "VBScript launchers are emitted without a BOM, and obsolete v0.6.4 video/sensor files exist only as tiny transition placeholders when required by the older updater; v0.6.5 removes them after the new runtime is active."
+      "heading": "Prominent result layout",
+      "detail": "The small Hardware Health summary was moved below the check table into a larger bold result block, with selected evidence directly underneath so PASS/WARNING/FAIL and its reason are immediately visible."
     }
   ]
 }
