@@ -1,45 +1,27 @@
 {
-  "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.6.4",
-  "title": "What's New — Real-World Video + CPU Sensor Proof",
-  "summary": "PulseGuard v0.6.4 replaces the synthetic-only playback proof with a real-world user-supplied video derivative looped for the full 3-minute stability window, separates visible playback from modern Windows MediaPlayer / Media Foundation decoder evidence, and adds an explicit-consent PawnIO 2.2.0 bootstrap so LibreHardwareMonitor can reach supported CPU package/core sensors without ever converting missing CPU evidence into a false PASS.",
-  "items": [
+  "version": "0.6.5",
+  "summary": "PulseGuard v0.6.5 removes the custom three-minute burn-in experiment and replaces it with a fast evidence-only Hardware Health Check. Sound, video/FPS, synthetic CPU/GPU/RAM stress, temperature-driver/PawnIO downloads and sensor-provider setup are removed. The release also safely cleans stale partial-download remnants and fixes the protection sidebar so it resolves real-time status without requiring a Full Health Scan.",
+  "sections": [
     {
-      "heading": "Real-world video for the full three minutes",
-      "detail": "PulseGuard packages a 1280x720 60 FPS H.264/AAC derivative of user-owned real-world footage and loops it throughout the 180-second stability test. Lower-end PCs are not failed merely for failing to sustain the source video's original 1440p120 capture rate."
+      "heading": "Hardware Health Check",
+      "detail": "Checks only evidence PulseGuard can prove reliably: Windows storage health, recent WHEA hardware events, BSOD history, Device Manager/driver health, LAN/network state and battery health on laptops. No synthetic CPU/GPU/RAM burn-in is performed; extended burn-in belongs in a dedicated tool such as BurnInTest."
     },
     {
-      "heading": "Decoder proof is independent from the window",
-      "detail": "The H.264 workload uses the modern Windows MediaPlayer frame-server path backed by the Windows media stack / Media Foundation. PASS requires decoded frame events, decoder/media progress, and non-zero decoded dimensions. WPF presentation FPS or visible motion alone can never promote a failed decoder to PASS."
+      "heading": "Removed unreliable test surface",
+      "detail": "The sound test, custom video/FPS decoder test, custom 2D/3D stress loop, temperature card, LibreHardwareMonitor/PawnIO sensor-provider download path and three-minute worker are removed rather than kept as noisy or misleading diagnostics."
     },
     {
-      "heading": "Actual footage is visible",
-      "detail": "The visible WPF presentation uses a compatibility derivative of the same real-world footage. The PulseGuard visible motion fallback remains available if WPF presentation fails, but fallback motion is presentation evidence only and is never counted as decoder proof."
+      "heading": "Cleaner partial-download handling",
+      "detail": "Deep Clean may remove only real *.crdownload, *.part, *.partial and *.download files in the current user's Downloads folder when they are older than 12 hours. Completed downloads and all other Downloads content remain protected."
     },
     {
-      "heading": "Verified PawnIO 2.2.0 CPU sensor bootstrap",
-      "detail": "When PawnIO is absent, PulseGuard asks for explicit one-time consent before installing the kernel sensor driver. It downloads only the pinned official PawnIO 2.2.0 installer, verifies SHA-256, requires a Valid Authenticode signature from the expected publisher identity, re-verifies immediately before execution, and accepts only success or reboot-required installer exit codes."
+      "heading": "Protection status UI fix",
+      "detail": "The real-time protection sidebar now shows CHECKING briefly and performs a lightweight Defender status query after the window opens, instead of leaving NOT SCANNED until a Full Health Scan is run."
     },
     {
-      "heading": "CPU temperature still cannot fake PASS",
-      "detail": "After PawnIO setup, the stability worker starts in a fresh process and retries LibreHardwareMonitor CPU telemetry. If a real CPU temperature sensor is still unavailable—or a reboot is required—Temperature remains WARNING and GPU/SSD/ACPI temperatures cannot substitute for CPU evidence."
-    },
-    {
-      "heading": "Visible PREPARING / RUNNING state retained",
-      "detail": "The 3-minute worker continues to publish PREPARING before evidence setup and RUNNING as active CPU/RAM/disk/graphics load begins, so sensor-provider setup cannot make the whole panel look frozen."
-    },
-    {
-      "heading": "Cleaner stereo chime retained",
-      "detail": "Sound continues to use the cleaner PulseGuard stereo chime that identifies left channel, right channel, then both channels, without replaying an annoying alert every 30 seconds."
-    },
-    {
-      "heading": "Evidence & Accuracy contracts retained",
-      "detail": "Repair verification still uses VERIFIED_FIXED, IMPROVED, NOT_FIXED, REBOOT_REQUIRED, UNVERIFIED and NO_CHANGE_NEEDED; WHEA evidence remains scoped to the exact test window; driver provenance remains recorded; unsupported VRAM integrity remains N/A; and PulseGuard does not claim per-driver latency attribution without equivalent evidence."
-    },
-    {
-      "heading": "Clean Runtime layout retained",
-      "detail": "PulseGuard PC.vbs remains the obvious customer launcher. Internal engines, rules, assets, driver catalog and notices remain under Runtime while compatibility bridge files preserve updates and existing shortcuts."
+      "heading": "Launcher/release hardening",
+      "detail": "VBScript launchers are emitted without a BOM, and obsolete v0.6.4 video/sensor files exist only as tiny transition placeholders when required by the older updater; v0.6.5 removes them after the new runtime is active."
     }
   ]
 }
