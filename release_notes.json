@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.5.9",
-  "title": "What's New — Fix + Optimize Reliability",
-  "summary": "Fix + Optimize now handles both new and legacy driver-result shapes safely and surfaces any finalization failure as a real process row instead of an unexplained red warning.",
+  "version": "0.6.0",
+  "title": "What's New — Deeper Hardware Diagnostics + Automatic OEM Drivers",
+  "summary": "Hardware diagnostics now exercise PulseGuard-owned audio/video paths with FPS and explicit CPU-temperature gating, while the driver engine can discover exact OEM driver packages dynamically instead of requiring a hard-coded motherboard rule.",
   "items": [
     {
-      "heading": "Driver summary crash fixed",
-      "detail": "The final Fix + Optimize summary now reads UpdatedCount from the PulseGuard Driver Engine and falls back to the legacy Installed field only when present, preventing StrictMode PropertyNotFoundException failures."
+      "heading": "PulseGuard-owned sound + video tests",
+      "detail": "The 3-minute stability test now generates its own stereo audio and uses a bundled 720p60 H.264 video playback window with presentation FPS, resolution and stall metrics instead of depending on the optional Windows WinSAT sample video."
     },
     {
-      "heading": "Errors now match the process list",
-      "detail": "If a post-workflow finalization error ever occurs, PulseGuard adds a visible failed Finalizing optimization results row so the red status icon and process list cannot disagree."
+      "heading": "CPU temperature is explicit",
+      "detail": "Temperature results now distinguish CPU, GPU and storage telemetry. A GPU or SSD temperature can no longer make the Temperature lane PASS when an actual CPU sensor is unavailable."
     },
     {
-      "heading": "Accurate completion state",
-      "detail": "A successful set of recorded repair steps is no longer mislabeled as a safety/preflight failure just because the final results summary encountered an exception."
+      "heading": "Dynamic motherboard driver discovery",
+      "detail": "Normal motherboard/device drivers can be discovered from exact official OEM support sources, validated against live hardware and signed INF metadata, then downloaded and installed automatically. BIOS flashing remains manual."
     }
   ]
 }
