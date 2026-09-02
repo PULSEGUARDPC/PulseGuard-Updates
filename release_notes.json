@@ -1,25 +1,13 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.5.8",
-  "title": "What's New \u2014 Auto Research & Clearer Fix Results",
-  "summary": "PulseGuard can now research unresolved startup/service evidence automatically and explain grouped optimization warnings instead of leaving vague duplicate warnings.",
+  "version": "0.5.7",
+  "title": "What's New \u2014 Test",
+  "summary": "test",
   "items": [
     {
-      "heading": "Automatic Research & Learning",
-      "detail": "Unknown/REVIEW startup and service items are now checked against executable path, Authenticode publisher, installed-app ownership and learned local evidence. HIGH-confidence decisions are cached; uncertain items remain untouched."
-    },
-    {
-      "heading": "Safer Registry Research",
-      "detail": "Stale compatibility entries can become backed-up SAFE-FIX items only when the target is missing and no installed app/package owns it. Live MSI/uninstall evidence is classified KEEP rather than left as an ambiguous warning."
-    },
-    {
-      "heading": "Optimization Warning Details",
-      "detail": "Optimization process rows are clickable and show each underlying step, result, duration and exact warning/error. Multiple warnings display a count."
-    },
-    {
-      "heading": "Post-Fix Warning Reconciliation",
-      "detail": "Locked browser cache files are reported as safe skips instead of generic failures, and registry repair no longer stays Warning when the final rescan shows zero SAFE-FIX items remaining."
+      "heading": "test",
+      "detail": "test"
     }
   ]
 }
