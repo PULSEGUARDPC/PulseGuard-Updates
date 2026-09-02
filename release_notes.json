@@ -1,29 +1,21 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.5.8",
-  "title": "What's New \u2014 Auto Research",
-  "summary": "PulseGuard now researches unresolved items before deciding what to keep or safely fix, and System & Performance warnings now show the exact details.",
+  "version": "0.5.9",
+  "title": "What's New — Fix + Optimize Reliability",
+  "summary": "Fix + Optimize now handles both new and legacy driver-result shapes safely and surfaces any finalization failure as a real process row instead of an unexplained red warning.",
   "items": [
     {
-      "heading": "Auto Research Engine",
-      "detail": "UNKNOWN and REVIEW startup/service items are checked against local executable path, signature, publisher, installed-app ownership and hardware/feature evidence. Confirmed decisions are learned in a per-PC research cache."
+      "heading": "Driver summary crash fixed",
+      "detail": "The final Fix + Optimize summary now reads UpdatedCount from the PulseGuard Driver Engine and falls back to the legacy Installed field only when present, preventing StrictMode PropertyNotFoundException failures."
     },
     {
-      "heading": "Safe decisions only",
-      "detail": "Weak evidence never causes deletion. SAFE-DISABLE requires a proven dead startup target plus the existing rollback path; otherwise PulseGuard chooses KEEP or REVIEW."
+      "heading": "Errors now match the process list",
+      "detail": "If a post-workflow finalization error ever occurs, PulseGuard adds a visible failed Finalizing optimization results row so the red status icon and process list cannot disagree."
     },
     {
-      "heading": "Smarter registry research",
-      "detail": "A missing compatibility setting can become SAFE-FIX only when the target is gone, its drive is online and no installed application still owns it. Rollback data is saved before removal."
-    },
-    {
-      "heading": "Clickable repair details",
-      "detail": "System & Performance Scan rows can now be clicked to show the underlying Deep Clean, registry and verification results instead of a vague Warning label."
-    },
-    {
-      "heading": "Warnings reconciled",
-      "detail": "Locked browser cache files are treated as safe skips, and registry warnings clear when the final rescan proves zero SAFE-FIX entries remain."
+      "heading": "Accurate completion state",
+      "detail": "A successful set of recorded repair steps is no longer mislabeled as a safety/preflight failure just because the final results summary encountered an exception."
     }
   ]
 }
