@@ -1,21 +1,29 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.6.0",
-  "title": "What's New — Deeper Hardware Diagnostics + Automatic OEM Drivers",
-  "summary": "Hardware diagnostics now exercise PulseGuard-owned audio/video paths with FPS and explicit CPU-temperature gating, while the driver engine can discover exact OEM driver packages dynamically instead of requiring a hard-coded motherboard rule.",
+  "version": "0.6.1",
+  "title": "What's New — Evidence & Accuracy",
+  "summary": "PulseGuard now correlates stability evidence to the exact test window, adds a pinned hardware-sensor provider path, deeper storage/network/battery/latency diagnostics, repair verification states, and stronger driver provenance.",
   "items": [
     {
-      "heading": "PulseGuard-owned sound + video tests",
-      "detail": "The 3-minute stability test now generates its own stereo audio and uses a bundled 720p60 H.264 video playback window with presentation FPS, resolution and stall metrics instead of depending on the optional Windows WinSAT sample video."
+      "heading": "Evidence-first hardware telemetry",
+      "detail": "PulseGuard can automatically acquire and SHA-256 verify the pinned LibreHardwareMonitor v0.9.6 provider, while retaining native fallbacks and never guessing unavailable sensors."
     },
     {
-      "heading": "CPU temperature is explicit",
-      "detail": "Temperature results now distinguish CPU, GPU and storage telemetry. A GPU or SSD temperature can no longer make the Temperature lane PASS when an actual CPU sensor is unavailable."
+      "heading": "Stability events are time-windowed",
+      "detail": "New WHEA and storage events are correlated to the exact 3-minute test window and kept separate from historical Windows event history."
     },
     {
-      "heading": "Dynamic motherboard driver discovery",
-      "detail": "Normal motherboard/device drivers can be discovered from exact official OEM support sources, validated against live hardware and signed INF metadata, then downloaded and installed automatically. BIOS flashing remains manual."
+      "heading": "Repairs now carry verification state",
+      "detail": "Repair evidence uses stable keys and explicit VERIFIED_FIXED, IMPROVED, NOT_FIXED, REBOOT_REQUIRED, UNVERIFIED, or NO_CHANGE_NEEDED outcomes instead of treating command completion as proof."
+    },
+    {
+      "heading": "Deeper PC diagnostics",
+      "detail": "Storage reliability, scheduling pressure, network path health, battery health, hardware inventory and truthful GPU-memory capability evidence are included without fake PASS states."
+    },
+    {
+      "heading": "Driver provenance hardened",
+      "detail": "Dynamic OEM discovery records source/parser/package/hardware-match provenance while retaining official-host, signature, hardware-ID, no-downgrade, backup and verification safety gates. BIOS auto-flashing remains blocked."
     }
   ]
 }
