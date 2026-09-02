@@ -1,0 +1,70 @@
+name: Publish PulseGuard updater manifests
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulseguard-stable-release
+  cancel-in-progress: false
+
+jobs:
+  publish-manifests:
+    if: ${{ github.event.release.prerelease == false }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set release variables
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "TAG=${{ github.event.release.tag_name }}" >> "$GITHUB_ENV"
+          echo "PUBLISHED_AT=${{ github.event.release.published_at }}" >> "$GITHUB_ENV"
+          echo "ASSET_NAME=PulseGuard_PC_${{ github.event.release.tag_name }}.zip" >> "$GITHUB_ENV"
+          echo "ASSET_DIR=${{ runner.temp }}/pulseguard-release" >> "$GITHUB_ENV"
+
+      - name: Download exact release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ASSET_DIR"
+          gh release download "$TAG" --repo "${{ github.repository }}" --pattern "$ASSET_NAME" --dir "$ASSET_DIR"
+          test -f "$ASSET_DIR/$ASSET_NAME" || { echo "::error::Expected release asset $ASSET_NAME was not downloaded"; exit 1; }
+
+      - name: Run release automation tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Generate validated updater manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python .github/scripts/publish_pulseguard_release.py \
+            --tag "$TAG" \
+            --published-at "$PUBLISHED_AT" \
+            --repository "${{ github.repository }}" \
+            --asset "$ASSET_DIR/$ASSET_NAME" \
+            --repo-root "$GITHUB_WORKSPACE"
+
+      - name: Commit updater manifests when changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- latest.json release_notes.json
+          if git diff --cached --quiet; then
+            echo "Updater manifests are already current for $TAG."
+            exit 0
+          fi
+          git commit -m "Update manifests for $TAG"
+          git push origin HEAD:main
