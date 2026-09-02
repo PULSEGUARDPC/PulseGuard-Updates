@@ -1,25 +1,41 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.6.2",
-  "title": "What's New — Startup Recovery Hotfix",
-  "summary": "PulseGuard v0.6.2 fixes a PowerShell parser error in the expanded hardware-stability card layout that could prevent v0.6.1 from opening after update. All v0.6.1 Evidence & Accuracy features remain included.",
+  "version": "0.6.3",
+  "title": "What's New — Cleaner Layout + Live Stability Fixes",
+  "summary": "PulseGuard v0.6.3 reorganizes implementation files under Runtime while preserving automatic update compatibility from v0.6.2, and it hardens the live 3-minute stability experience so the UI publishes PREPARING/RUNNING evidence immediately, video playback cannot PASS from UI FPS alone when decoder/media progress is unproven, and the speaker check uses a cleaner stereo chime.",
   "items": [
     {
-      "heading": "Startup parser hotfix",
-      "detail": "Fixed the malformed statement separator in the expanded 13-card stability-test layout that caused an Unexpected token n startup error in v0.6.1."
+      "heading": "One obvious launcher",
+      "detail": "Customers launch PulseGuard PC.vbs. Internal engines, rules, assets, the driver catalog, updater, diagnostics modules and third-party notices live under Runtime."
     },
     {
-      "heading": "Updater recovery preserved",
-      "detail": "The launcher continues to run the updater before loading the main program, so an affected v0.6.1 installation can automatically receive this repair before the broken main script is parsed."
+      "heading": "Safe v0.6.2 migration bridge",
+      "detail": "The v0.6.3 release temporarily carries the exact legacy paths required by the already-shipped v0.6.2 updater. Cleanup does not run until the complete Runtime payload has been verified."
     },
     {
-      "heading": "Regression protection added",
-      "detail": "Release tests now reject literal PowerShell newline/carriage-return escape artifacts when they appear between executable statements, preventing this exact source-generation mistake from shipping again."
+      "heading": "Customer state stays outside Runtime",
+      "detail": "Data, Logs, Reports and Backups remain at the install root and are preserved across updates. An existing Rules\\system_profile.json is migrated into Runtime\\Rules before the legacy Rules directory can be removed."
     },
     {
-      "heading": "v0.6.1 diagnostics retained",
-      "detail": "Evidence-first repair verification (including UNVERIFIED when proof is insufficient), exact-window WHEA/storage correlation, deeper hardware telemetry, driver provenance, storage/network/battery/latency diagnostics, PulseGuard video/audio tests, and conservative driver automation remain included. VRAM integrity still remains N/A without a trustworthy direct verifier, and no LatencyMon-style per-driver attribution is claimed."
+      "heading": "Shortcut compatibility preserved",
+      "detail": "Legacy main/start/VBS/CMD entry points become small Runtime relays and are hidden after successful migration rather than deleted, so existing shortcuts and scheduled entry points continue to work."
+    },
+    {
+      "heading": "Evidence and diagnostics retained",
+      "detail": "All v0.6.2 Evidence & Accuracy diagnostics remain included: repair verification still uses explicit states such as UNVERIFIED when proof is insufficient, WHEA evidence remains scoped to the exact stability-test window, driver provenance remains recorded, unsupported VRAM integrity remains N/A, and PulseGuard still does not claim LatencyMon-style driver-level attribution without equivalent evidence."
+    },
+    {
+      "heading": "Visible video / motion proof",
+      "detail": "The video test now includes a visible motion scene and tracks decoder/media progress separately from WPF presentation FPS. A stalled or otherwise unproven decoder can no longer receive PASS merely because the WPF window itself renders at about 60 FPS; a visible PulseGuard motion scene keeps the test window obviously active even when the media surface is black."
+    },
+    {
+      "heading": "Live test starts visibly",
+      "detail": "The stability worker publishes PREPARING status before evidence setup and RUNNING status as soon as active CPU/RAM/disk/graphics load begins. First-run sensor-provider acquisition is time-bounded and timed temperature samples do not start new downloads."
+    },
+    {
+      "heading": "Cleaner stereo chime",
+      "detail": "The old repeated synthetic tone sequence is replaced with a softer stereo chime that identifies the left channel, right channel, then both channels, and it repeats only once during the three-minute run instead of every 30 seconds."
     }
   ]
 }
