@@ -1,13 +1,29 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.5.7",
-  "title": "What's New \u2014 Test",
-  "summary": "test",
+  "version": "0.5.8",
+  "title": "What's New \u2014 Auto Research",
+  "summary": "PulseGuard now researches unresolved items before deciding what to keep or safely fix, and System & Performance warnings now show the exact details.",
   "items": [
     {
-      "heading": "test",
-      "detail": "test"
+      "heading": "Auto Research Engine",
+      "detail": "UNKNOWN and REVIEW startup/service items are checked against local executable path, signature, publisher, installed-app ownership and hardware/feature evidence. Confirmed decisions are learned in a per-PC research cache."
+    },
+    {
+      "heading": "Safe decisions only",
+      "detail": "Weak evidence never causes deletion. SAFE-DISABLE requires a proven dead startup target plus the existing rollback path; otherwise PulseGuard chooses KEEP or REVIEW."
+    },
+    {
+      "heading": "Smarter registry research",
+      "detail": "A missing compatibility setting can become SAFE-FIX only when the target is gone, its drive is online and no installed application still owns it. Rollback data is saved before removal."
+    },
+    {
+      "heading": "Clickable repair details",
+      "detail": "System & Performance Scan rows can now be clicked to show the underlying Deep Clean, registry and verification results instead of a vague Warning label."
+    },
+    {
+      "heading": "Warnings reconciled",
+      "detail": "Locked browser cache files are treated as safe skips, and registry warnings clear when the final rescan proves zero SAFE-FIX entries remain."
     }
   ]
 }
