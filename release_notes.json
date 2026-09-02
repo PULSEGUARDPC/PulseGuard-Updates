@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "product": "PulseGuard PC",
+  "version": "0.5.2",
+  "title": "What's New — GitHub Automatic Updates",
+  "summary": "PulseGuard v0.5.2 moves the launcher updater to the official PulseGuard-Updates GitHub repository. This is the one-time manual bridge release; later published versions can install automatically when the launcher opens.",
+  "items": [
+    {
+      "heading": "GitHub-powered automatic updates",
+      "detail": "The launcher now checks the official PULSEGUARDPC/PulseGuard-Updates manifest on GitHub before the main program starts, with no Vercel, Cloudflare, or paid hosting dependency."
+    },
+    {
+      "heading": "Updater window runs before PulseGuard",
+      "detail": "Every normal launcher start opens the dedicated update window first. It checks for a newer release, downloads and verifies it when available, then finishes opening the installed PulseGuard version."
+    },
+    {
+      "heading": "Full release integrity verification",
+      "detail": "Downloaded release ZIPs must match the exact published byte size and SHA-256 hash before installation. The package is staged and validated before any runtime files are replaced."
+    },
+    {
+      "heading": "Protected local data and rollback",
+      "detail": "Data, Logs, Reports, Backups, and the local system profile stay on the customer PC. Runtime files are backed up outside the install folder before an automatic update is applied."
+    },
+    {
+      "heading": "What's New still appears after updates",
+      "detail": "Release notes remain inside each verified PulseGuard release. After a newly installed version opens, PulseGuard shows that version’s changelog once and stores the acknowledgement locally."
+    },
+    {
+      "heading": "Version visible in the dashboard",
+      "detail": "The installed version remains displayed directly beside PULSEGUARD PC in the main dashboard header."
+    }
+  ]
+}
