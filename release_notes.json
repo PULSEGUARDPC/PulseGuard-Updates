@@ -1,41 +1,45 @@
 {
   "schemaVersion": 1,
   "product": "PulseGuard PC",
-  "version": "0.6.3",
-  "title": "What's New — Cleaner Layout + Live Stability Fixes",
-  "summary": "PulseGuard v0.6.3 reorganizes implementation files under Runtime while preserving automatic update compatibility from v0.6.2, and it hardens the live 3-minute stability experience so the UI publishes PREPARING/RUNNING evidence immediately, video playback cannot PASS from UI FPS alone when decoder/media progress is unproven, and the speaker check uses a cleaner stereo chime.",
+  "version": "0.6.4",
+  "title": "What's New — Real-World Video + CPU Sensor Proof",
+  "summary": "PulseGuard v0.6.4 replaces the synthetic-only playback proof with a real-world user-supplied video derivative looped for the full 3-minute stability window, separates visible playback from modern Windows MediaPlayer / Media Foundation decoder evidence, and adds an explicit-consent PawnIO 2.2.0 bootstrap so LibreHardwareMonitor can reach supported CPU package/core sensors without ever converting missing CPU evidence into a false PASS.",
   "items": [
     {
-      "heading": "One obvious launcher",
-      "detail": "Customers launch PulseGuard PC.vbs. Internal engines, rules, assets, the driver catalog, updater, diagnostics modules and third-party notices live under Runtime."
+      "heading": "Real-world video for the full three minutes",
+      "detail": "PulseGuard packages a 1280x720 60 FPS H.264/AAC derivative of user-owned real-world footage and loops it throughout the 180-second stability test. Lower-end PCs are not failed merely for failing to sustain the source video's original 1440p120 capture rate."
     },
     {
-      "heading": "Safe v0.6.2 migration bridge",
-      "detail": "The v0.6.3 release temporarily carries the exact legacy paths required by the already-shipped v0.6.2 updater. Cleanup does not run until the complete Runtime payload has been verified."
+      "heading": "Decoder proof is independent from the window",
+      "detail": "The H.264 workload uses the modern Windows MediaPlayer frame-server path backed by the Windows media stack / Media Foundation. PASS requires decoded frame events, decoder/media progress, and non-zero decoded dimensions. WPF presentation FPS or visible motion alone can never promote a failed decoder to PASS."
     },
     {
-      "heading": "Customer state stays outside Runtime",
-      "detail": "Data, Logs, Reports and Backups remain at the install root and are preserved across updates. An existing Rules\\system_profile.json is migrated into Runtime\\Rules before the legacy Rules directory can be removed."
+      "heading": "Actual footage is visible",
+      "detail": "The visible WPF presentation uses a compatibility derivative of the same real-world footage. The PulseGuard visible motion fallback remains available if WPF presentation fails, but fallback motion is presentation evidence only and is never counted as decoder proof."
     },
     {
-      "heading": "Shortcut compatibility preserved",
-      "detail": "Legacy main/start/VBS/CMD entry points become small Runtime relays and are hidden after successful migration rather than deleted, so existing shortcuts and scheduled entry points continue to work."
+      "heading": "Verified PawnIO 2.2.0 CPU sensor bootstrap",
+      "detail": "When PawnIO is absent, PulseGuard asks for explicit one-time consent before installing the kernel sensor driver. It downloads only the pinned official PawnIO 2.2.0 installer, verifies SHA-256, requires a Valid Authenticode signature from the expected publisher identity, re-verifies immediately before execution, and accepts only success or reboot-required installer exit codes."
     },
     {
-      "heading": "Evidence and diagnostics retained",
-      "detail": "All v0.6.2 Evidence & Accuracy diagnostics remain included: repair verification still uses explicit states such as UNVERIFIED when proof is insufficient, WHEA evidence remains scoped to the exact stability-test window, driver provenance remains recorded, unsupported VRAM integrity remains N/A, and PulseGuard still does not claim LatencyMon-style driver-level attribution without equivalent evidence."
+      "heading": "CPU temperature still cannot fake PASS",
+      "detail": "After PawnIO setup, the stability worker starts in a fresh process and retries LibreHardwareMonitor CPU telemetry. If a real CPU temperature sensor is still unavailable—or a reboot is required—Temperature remains WARNING and GPU/SSD/ACPI temperatures cannot substitute for CPU evidence."
     },
     {
-      "heading": "Visible video / motion proof",
-      "detail": "The video test now includes a visible motion scene and tracks decoder/media progress separately from WPF presentation FPS. A stalled or otherwise unproven decoder can no longer receive PASS merely because the WPF window itself renders at about 60 FPS; a visible PulseGuard motion scene keeps the test window obviously active even when the media surface is black."
+      "heading": "Visible PREPARING / RUNNING state retained",
+      "detail": "The 3-minute worker continues to publish PREPARING before evidence setup and RUNNING as active CPU/RAM/disk/graphics load begins, so sensor-provider setup cannot make the whole panel look frozen."
     },
     {
-      "heading": "Live test starts visibly",
-      "detail": "The stability worker publishes PREPARING status before evidence setup and RUNNING status as soon as active CPU/RAM/disk/graphics load begins. First-run sensor-provider acquisition is time-bounded and timed temperature samples do not start new downloads."
+      "heading": "Cleaner stereo chime retained",
+      "detail": "Sound continues to use the cleaner PulseGuard stereo chime that identifies left channel, right channel, then both channels, without replaying an annoying alert every 30 seconds."
     },
     {
-      "heading": "Cleaner stereo chime",
-      "detail": "The old repeated synthetic tone sequence is replaced with a softer stereo chime that identifies the left channel, right channel, then both channels, and it repeats only once during the three-minute run instead of every 30 seconds."
+      "heading": "Evidence & Accuracy contracts retained",
+      "detail": "Repair verification still uses VERIFIED_FIXED, IMPROVED, NOT_FIXED, REBOOT_REQUIRED, UNVERIFIED and NO_CHANGE_NEEDED; WHEA evidence remains scoped to the exact test window; driver provenance remains recorded; unsupported VRAM integrity remains N/A; and PulseGuard does not claim per-driver latency attribution without equivalent evidence."
+    },
+    {
+      "heading": "Clean Runtime layout retained",
+      "detail": "PulseGuard PC.vbs remains the obvious customer launcher. Internal engines, rules, assets, driver catalog and notices remain under Runtime while compatibility bridge files preserve updates and existing shortcuts."
     }
   ]
 }
