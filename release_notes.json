@@ -1,19 +1,19 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.9",
-  "summary": "PulseGuard v0.6.9 improves package reliability, reduces unnecessary installation files, and keeps existing diagnostics, repair, optimization, reporting, and update behavior intact.",
+  "version": "0.6.10",
+  "summary": "PulseGuard v0.6.10 restores the Optimize page live bottom progress surface and post-run report access while preserving existing diagnostics, repair, optimization, and updater behavior.",
   "sections": [
     {
-      "heading": "Package reliability",
-      "detail": "The customer release package is smaller and contains only the files required for normal PulseGuard operation and update compatibility."
+      "heading": "Optimize progress visibility",
+      "detail": "Live FIX + OPTIMIZE percentage and current-task status now remain visible in the large bottom status area throughout the run."
     },
     {
-      "heading": "Updater hardening",
-      "detail": "Release-package validation is stricter so unexpected or stale files cannot be introduced accidentally during future updates."
+      "heading": "Report access",
+      "detail": "The post-run REVIEW REPORT action is restored and reliably resolves the latest consolidated report."
     },
     {
       "heading": "General maintenance",
-      "detail": "Removed unnecessary legacy packaging artifacts and performed general maintenance without changing existing diagnostics, repair, reporting, or Hardware Health behavior."
+      "detail": "No diagnostics, repair, Hardware Health, driver, scoring, or update logic was changed in this UI hotfix."
     }
   ]
 }
