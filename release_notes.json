@@ -1,23 +1,19 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.8",
-  "summary": "PulseGuard v0.6.8 is the final UI/history hotfix: live optimizer progress is moved to the bottom status area, Review Report is restored, and verified Windows event history no longer re-arms resolved warnings unless a new matching event occurs.",
+  "version": "0.6.9",
+  "summary": "PulseGuard v0.6.9 improves package reliability, reduces unnecessary installation files, and keeps existing diagnostics, repair, optimization, reporting, and update behavior intact.",
   "sections": [
     {
-      "heading": "Live progress moved to the bottom",
-      "detail": "While FIX + OPTIMIZE ALL is running, the percentage and current task now occupy the large bottom status area. The old upper-right progress badge is hidden during the active workflow."
+      "heading": "Package reliability",
+      "detail": "The customer release package is smaller and contains only the files required for normal PulseGuard operation and update compatibility."
     },
     {
-      "heading": "Review Report restored",
-      "detail": "The completion controls again expose a clear REVIEW REPORT action. PulseGuard opens the consolidated report directly when Windows has a registered viewer and falls back to selecting the report file in Explorer."
+      "heading": "Updater hardening",
+      "detail": "Release-package validation is stricter so unexpected or stale files cannot be introduced accidentally during future updates."
     },
     {
-      "heading": "Resolved Windows event history stays resolved",
-      "detail": "Verified event-backed findings receive a persistent per-PC remediation watermark. Event Viewer records older than that verified-fix time remain available as historical/monitoring evidence but no longer return as fresh red findings or health-score penalties on the next Full Health Scan."
-    },
-    {
-      "heading": "New events still re-open the warning",
-      "detail": "PulseGuard does not clear Windows Event Viewer logs. A matching crash, BSOD, WHEA, storage, GPU-reset, or unexpected-shutdown event newer than the stored verified-fix watermark reactivates the warning for renewed diagnosis."
+      "heading": "General maintenance",
+      "detail": "Removed unnecessary legacy packaging artifacts and performed general maintenance without changing existing diagnostics, repair, reporting, or Hardware Health behavior."
     }
   ]
 }
