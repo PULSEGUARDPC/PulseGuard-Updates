@@ -1,27 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.6",
-  "summary": "PulseGuard v0.6.6 polishes Hardware Health into a clearer customer-facing diagnostic without changing the checks that v0.6.5 proved reliable.",
+  "version": "0.6.7",
+  "summary": "PulseGuard v0.6.7 is the final optimizer-accuracy polish: live FIX + OPTIMIZE state, settled CPU evidence, truthful verification wording, and a prominent completion summary.",
   "sections": [
     {
-      "heading": "Clear warning reason",
-      "detail": "The Hardware Health summary now explains why Overall is WARNING or FAIL. A warning caused only by crash history is labeled as historical crash / BSOD evidence rather than implying the current hardware failed."
+      "heading": "Real optimizer progress",
+      "detail": "The Optimize page now exposes the real major FIX + OPTIMIZE operations—safety preflight, baseline CPU, restore point, Deep Clean, Registry Review, Privacy Sweep, performance setup, startup, Windows repair, drivers/apps, security, device rescan, Game Ready, and final verification. The currently executing operation always owns the RUNNING state."
     },
     {
-      "heading": "Meaningful evidence labels",
-      "detail": "Generic Local Windows evidence labels are replaced with SMART / Windows storage reliability, Windows WHEA event log, BugCheck + minidump history, Device Manager / PnP status, Gateway + DNS + Internet, and Windows battery telemetry."
+      "heading": "Truthful repair state",
+      "detail": "Changes recorded during the active workflow show Verification pending until targeted verification finishes. UNVERIFIED is reserved for the final state when PulseGuard cannot prove the individual repair."
     },
     {
-      "heading": "Plain-English details",
-      "detail": "Storage and other rows use plain-English customer wording, the Count column is now Findings with explicit 0 or N/A markers, and raw-looking disk status strings are no longer the primary explanation."
+      "heading": "Settled CPU comparison",
+      "detail": "Before and after background CPU now use matching median multi-sample measurements after a settle period. A higher post-optimization result is shown as elevated/recheck recommended, not green improvement."
     },
     {
-      "heading": "Historical crash context",
-      "detail": "Selecting Crash / BSOD History now shows recent bugcheck timestamps, codes, minidump evidence, and an explicit note that historical crash evidence is not proof of a current hardware failure."
+      "heading": "Prominent completion summary",
+      "detail": "The tiny top Completed in timer is hidden after completion. The bottom result area is anchored to the bottom of the window and prominently shows OPTIMIZATION COMPLETE plus the elapsed time and repair-proof summary."
     },
     {
-      "heading": "Prominent result layout",
-      "detail": "The small Hardware Health summary was moved below the check table into a larger bold result block, with selected evidence directly underneath so PASS/WARNING/FAIL and its reason are immediately visible."
+      "heading": "Hardware Health unchanged",
+      "detail": "The v0.6.6 evidence-based Hardware Health Check and its scoring logic are unchanged in this optimizer-only release."
     }
   ]
 }
