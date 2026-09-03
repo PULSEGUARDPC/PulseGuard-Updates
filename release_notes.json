@@ -1,27 +1,23 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.7",
-  "summary": "PulseGuard v0.6.7 is the final optimizer-accuracy polish: live FIX + OPTIMIZE state, settled CPU evidence, truthful verification wording, and a prominent completion summary.",
+  "version": "0.6.8",
+  "summary": "PulseGuard v0.6.8 is the final UI/history hotfix: live optimizer progress is moved to the bottom status area, Review Report is restored, and verified Windows event history no longer re-arms resolved warnings unless a new matching event occurs.",
   "sections": [
     {
-      "heading": "Real optimizer progress",
-      "detail": "The Optimize page now exposes the real major FIX + OPTIMIZE operations—safety preflight, baseline CPU, restore point, Deep Clean, Registry Review, Privacy Sweep, performance setup, startup, Windows repair, drivers/apps, security, device rescan, Game Ready, and final verification. The currently executing operation always owns the RUNNING state."
+      "heading": "Live progress moved to the bottom",
+      "detail": "While FIX + OPTIMIZE ALL is running, the percentage and current task now occupy the large bottom status area. The old upper-right progress badge is hidden during the active workflow."
     },
     {
-      "heading": "Truthful repair state",
-      "detail": "Changes recorded during the active workflow show Verification pending until targeted verification finishes. UNVERIFIED is reserved for the final state when PulseGuard cannot prove the individual repair."
+      "heading": "Review Report restored",
+      "detail": "The completion controls again expose a clear REVIEW REPORT action. PulseGuard opens the consolidated report directly when Windows has a registered viewer and falls back to selecting the report file in Explorer."
     },
     {
-      "heading": "Settled CPU comparison",
-      "detail": "Before and after background CPU now use matching median multi-sample measurements after a settle period. A higher post-optimization result is shown as elevated/recheck recommended, not green improvement."
+      "heading": "Resolved Windows event history stays resolved",
+      "detail": "Verified event-backed findings receive a persistent per-PC remediation watermark. Event Viewer records older than that verified-fix time remain available as historical/monitoring evidence but no longer return as fresh red findings or health-score penalties on the next Full Health Scan."
     },
     {
-      "heading": "Prominent completion summary",
-      "detail": "The tiny top Completed in timer is hidden after completion. The bottom result area is anchored to the bottom of the window and prominently shows OPTIMIZATION COMPLETE plus the elapsed time and repair-proof summary."
-    },
-    {
-      "heading": "Hardware Health unchanged",
-      "detail": "The v0.6.6 evidence-based Hardware Health Check and its scoring logic are unchanged in this optimizer-only release."
+      "heading": "New events still re-open the warning",
+      "detail": "PulseGuard does not clear Windows Event Viewer logs. A matching crash, BSOD, WHEA, storage, GPU-reset, or unexpected-shutdown event newer than the stored verified-fix watermark reactivates the warning for renewed diagnosis."
     }
   ]
 }
