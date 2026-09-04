@@ -1,19 +1,19 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.10",
-  "summary": "PulseGuard v0.6.10 restores the Optimize page live bottom progress surface and post-run report access while preserving existing diagnostics, repair, optimization, and updater behavior.",
+  "version": "0.6.11",
+  "summary": "PulseGuard v0.6.11 fixes a Full Health Scan crash that could occur when a Windows event category returned exactly one matching event.",
   "sections": [
     {
-      "heading": "Optimize progress visibility",
-      "detail": "Live FIX + OPTIMIZE percentage and current-task status now remain visible in the large bottom status area throughout the run."
+      "heading": "Full Health Scan reliability",
+      "detail": "Windows hardware and stability event sources are now normalized before being combined, preventing a single EventLogRecord from aborting the scan."
     },
     {
-      "heading": "Report access",
-      "detail": "The post-run REVIEW REPORT action is restored and reliably resolves the latest consolidated report."
+      "heading": "Event evidence preserved",
+      "detail": "The fix changes only how event collections are combined; existing historical-event watermarks, scoring, repair verification, and Event Viewer evidence remain unchanged."
     },
     {
       "heading": "General maintenance",
-      "detail": "No diagnostics, repair, Hardware Health, driver, scoring, or update logic was changed in this UI hotfix."
+      "detail": "No driver, Hardware Health, optimizer workflow, updater, or report behavior was changed in this hotfix."
     }
   ]
 }
