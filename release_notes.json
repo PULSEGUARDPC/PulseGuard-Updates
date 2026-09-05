@@ -1,19 +1,23 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.11",
-  "summary": "PulseGuard v0.6.11 fixes a Full Health Scan crash that could occur when a Windows event category returned exactly one matching event.",
+  "version": "0.6.12",
+  "summary": "PulseGuard v0.6.12 restores the missing optimizer detail surface and the post-update What's New window, while fixing two warnings found in the latest runtime log.",
   "sections": [
     {
-      "heading": "Full Health Scan reliability",
-      "detail": "Windows hardware and stability event sources are now normalized before being combined, preventing a single EventLogRecord from aborting the scan."
+      "heading": "Live optimizer details restored",
+      "detail": "The large lower area on Optimize now shows persistent live FIX + OPTIMIZE ALL details, including Deep Clean areas, eligible items, removed items, space freed, skipped/error counts, recorded changes, and completed step results."
     },
     {
-      "heading": "Event evidence preserved",
-      "detail": "The fix changes only how event collections are combined; existing historical-event watermarks, scoring, repair verification, and Event Viewer evidence remain unchanged."
+      "heading": "What's New works after updates again",
+      "detail": "Release notes now accept the current sections schema and legacy items schema, preventing StrictMode from hiding the changelog after an update."
     },
     {
-      "heading": "General maintenance",
-      "detail": "No driver, Hardware Health, optimizer workflow, updater, or report behavior was changed in this hotfix."
+      "heading": "Driver Engine startup fixed",
+      "detail": "A PowerShell string interpolation parse error in the OEM support-page warning path was corrected, allowing the current Driver Engine to load instead of falling back to the legacy path."
+    },
+    {
+      "heading": "Scheduled startup scan warning fixed",
+      "detail": "Scheduled Task actions are now read defensively because not every Windows task action exposes Execute/Arguments. This prevents repeated StrictMode warnings during scans and verification."
     }
   ]
 }
