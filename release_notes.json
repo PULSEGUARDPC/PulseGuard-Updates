@@ -1,27 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.14",
-  "summary": "PulseGuard v0.6.14 fixes the v0.6.13 responsive-driver result handoff, exposes exact driver update status, makes the automatic post-fix rescan unmistakably visible, and repairs full-screen driver-page clipping.",
+  "version": "0.6.15",
+  "summary": "PulseGuard v0.6.15 makes manual driver scans responsive, corrects Windows driver-ranking interpretation, removes false missing-driver states, and compacts the Dashboard/Optimize layouts to use screen space more effectively.",
   "sections": [
     {
-      "heading": "Responsive Driver FixAll result handoff repaired",
-      "detail": "The detached driver worker now returns a PSCustomObject transport payload and the parent reads it through dictionary-safe accessors, preventing a successful driver run from being misreported as “worker did not report success.”"
+      "heading": "SCAN DRIVERS no longer freezes the window",
+      "detail": "The complete manual driver scan now runs in a responsive background worker, including Device Manager health, signed-driver inventory, Windows Update checks, and trusted OEM/Microsoft Catalog discovery. Scan and install buttons are mutually disabled while a driver worker is active."
     },
     {
-      "heading": "Exact driver update status is visible",
-      "detail": "Drivers / Devices now separates Device Manager health from driver-update state and lists the exact Windows Update, OEM, or Microsoft Catalog package/device that is available, installed, verified, or failed when the provider exposes that detail."
+      "heading": "INSTALL DRIVER UPDATES is clearer",
+      "detail": "The old INSTALL WU DRIVERS label is now INSTALL DRIVER UPDATES because PulseGuard can use verified Windows Update, OEM, and Microsoft Catalog driver lanes while retaining signature, hardware-match, downgrade, BIOS, reboot, and safety protections."
     },
     {
-      "heading": "Automatic post-fix Full Health Rescan stays visibly active",
-      "detail": "FIX + OPTIMIZE ALL no longer paints the final completion state before its automatic rescan starts. The Optimize page remains in an explicit POST-FIX FULL HEALTH RESCAN state with live progress until the background diagnostic finishes and refreshes the final baseline."
+      "heading": "Windows driver ranking is handled correctly",
+      "detail": "PnPUtil ERROR_NO_MORE_ITEMS (259) on a healthy device is treated as Windows keeping the preferred current driver rather than an install failure. Exact rank-rejected candidates are remembered and are not repeatedly advertised as actionable while the installed version and candidate remain unchanged."
     },
     {
-      "heading": "Drivers page now fits full screen correctly",
-      "detail": "The Device Manager grid shrinks when there are no errors, the combined driver-status panel gets a stable readable area, and the signed-driver inventory dynamically fills the remaining visible client height with a protected bottom margin on maximize/restore/DPI resize."
+      "heading": "False missing-driver counts removed",
+      "detail": "Missing metadata in Win32_PnPSignedDriver is now informational. Only Device Manager Code 28 marks a device as actually needing a driver, while other non-zero Device Manager codes remain separate device problems."
     },
     {
-      "heading": "v0.6.13 safety/reporting improvements retained",
-      "detail": "Game Ready app-family reconciliation, direct startup/registry verification, actionable CPU comparison, and the responsive background driver execution model remain in place."
+      "heading": "Dashboard and Optimize layouts are tighter",
+      "detail": "The Dashboard heartbeat is now a thin footer so Findings, Recommended Actions, and Quick Actions receive more vertical space. Optimize compacts the process/changes deck, expands Changes Recorded into the formerly unused right side, and moves the live details panel upward."
+    },
+    {
+      "heading": "Normal Game Ready partial safety decisions are informational",
+      "detail": "When some child processes are safely closed and others are intentionally kept by policy, the consolidated PARTIAL decision is logged as information rather than a warning."
     }
   ]
 }
