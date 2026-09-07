@@ -1,23 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.12",
-  "summary": "PulseGuard v0.6.12 restores the missing optimizer detail surface and the post-update What's New window, while fixing two warnings found in the latest runtime log.",
+  "version": "0.6.13",
+  "summary": "PulseGuard v0.6.13 keeps long driver work responsive, restores the automatic post-fix Full Health Rescan, and tightens Game Ready, repair verification, and CPU result accuracy.",
   "sections": [
     {
-      "heading": "Live optimizer details restored",
-      "detail": "The large lower area on Optimize now shows persistent live FIX + OPTIMIZE ALL details, including Deep Clean areas, eligible items, removed items, space freed, skipped/error counts, recorded changes, and completed step results."
+      "heading": "Driver FixAll no longer owns the UI thread",
+      "detail": "The long trusted driver scan/install/verification lane now runs in a separate PowerShell worker while the WinForms message pump stays active, so the main window can continue repainting, moving and updating live status during driver work."
     },
     {
-      "heading": "What's New works after updates again",
-      "detail": "Release notes now accept the current sections schema and legacy items schema, preventing StrictMode from hiding the changelog after an update."
+      "heading": "Automatic post-fix Full Health Rescan restored",
+      "detail": "After FIX + OPTIMIZE ALL completes targeted repair verification, PulseGuard automatically launches the existing complete Full Health Scan in its background worker and refreshes the dashboard/results from the fresh post-fix baseline."
     },
     {
-      "heading": "Driver Engine startup fixed",
-      "detail": "A PowerShell string interpolation parse error in the OEM support-page warning path was corrected, allowing the current Driver Engine to load instead of falling back to the legacy path."
+      "heading": "Game Ready decisions are reconciled by app family",
+      "detail": "SAFE-CLOSE decisions are still made per process, but reporting is aggregated once per app family. Mixed outcomes are shown as PARTIAL with closed/kept process counts instead of contradictory repeated CLOSED and KEPT lines."
     },
     {
-      "heading": "Scheduled startup scan warning fixed",
-      "detail": "Scheduled Task actions are now read defensively because not every Windows task action exposes Execute/Arguments. This prevents repeated StrictMode warnings during scans and verification."
+      "heading": "Repair proof now recognizes direct startup/registry evidence",
+      "detail": "Startup entries absent from the post-fix SAFE-DISABLE inventory and registry repairs whose post-review confirms zero remaining SAFE-FIX entries receive direct verified proof instead of being left generically unverified."
+    },
+    {
+      "heading": "Background CPU comparison is fairer and more stable",
+      "detail": "Optimization before/after CPU now compares actionable plus unresolved background load, not protected Windows/hardware maintenance work. Final sampling adaptively waits for PulseGuard-triggered maintenance activity to settle before showing a regression warning."
     }
   ]
 }
