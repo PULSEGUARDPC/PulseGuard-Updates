@@ -1,31 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.16",
-  "summary": "PulseGuard v0.6.16 restores the branded heartbeat, keeps Full Health Scan activity visible on Dashboard and Optimize, fixes CPU presentation, expands the Vendor Updates layout, and makes driver/update outcomes clearer without forcing Windows-ranked or BIOS updates.",
+  "version": "0.6.17",
+  "summary": "PulseGuard v0.6.17 is a final UI/notification polish pass: BIOS update notifications work again, ASUS DriverHub opens the official web portal only, Quick Actions fill their card, Optimize panels are rebalanced, and Vendor Updates follows the approved spacious layout.",
   "sections": [
     {
-      "heading": "Full Health Scan details stay on Dashboard",
-      "detail": "A persistent FULL HEALTH SCAN DETAILS panel now shows each background diagnostic stage while the scan runs and keeps the latest scan history visible after completion."
+      "heading": "BIOS update notification repaired",
+      "detail": "The BIOS row is labeled UPDATE AVAILABLE • MANUAL for safety, and the popup now recognizes that status correctly. The notification is offered after a normal Full Health Scan and also after the automatic post-fix rescan if it has not already been shown in the session. BIOS flashing remains manual."
     },
     {
-      "heading": "Post-fix rescan now writes into Optimize details",
-      "detail": "Every automatic post-fix Full Health Rescan stage is appended to LIVE OPTIMIZATION / CLEANUP DETAILS, including the final health score and background CPU result."
+      "heading": "ASUS DriverHub is browser-only",
+      "detail": "OPEN ASUS DRIVERHUB now opens https://driverhub.asus.com/en in the default browser. PulseGuard never launches or installs the local DriverHub application; OPEN BOARD SUPPORT remains the exact motherboard fallback."
     },
     {
-      "heading": "Background CPU keeps measured precision",
-      "detail": "Optimize displays the real settled total background CPU with one decimal place, while actionable/unresolved CPU remains the safety signal for regression warnings. During the automatic rescan the AFTER value shows Measuring... instead of a misleading temporary 0%."
+      "heading": "Dashboard Quick Actions fill the available card",
+      "detail": "The five Quick Action buttons now grow evenly with the Quick Actions panel, with centered icons and balanced spacing instead of leaving a large empty gap at the bottom."
     },
     {
-      "heading": "Branded heartbeat restored and pinned",
-      "detail": "THANK YOU FOR TRUSTING PULSEGUARD PC and SYSTEM HEARTBEAT status text are restored. The heartbeat is slightly larger than v0.6.15 and pinned to the true bottom of the Dashboard."
+      "heading": "Optimize upper panels rebalanced",
+      "detail": "OPTIMIZATION PROCESS now receives 55% of the upper work area and CHANGES RECORDED receives the exact remaining 45%, eliminating the oversized empty region in the Changes panel."
     },
     {
-      "heading": "Vendor Updates matches the approved layout",
-      "detail": "Vendor buttons and rows are larger, long explanations wrap inside the table, the final column consumes remaining width, and the table resizes to the visible Tools page instead of clipping text off-screen."
+      "heading": "Vendor Updates layout finalized",
+      "detail": "Vendor buttons are larger, table rows are roomier, long descriptions wrap, and the final explanation column receives more width while still resizing with the Tools page."
     },
     {
-      "heading": "BIOS and driver actions are clearer",
-      "detail": "BIOS updates are explicitly labeled manual because PulseGuard never automatically flashes BIOS. Driver installation now explains when no actionable package exists or when Windows keeps its preferred current driver rather than implying a failed download."
+      "heading": "v0.6.16 scan and CPU improvements preserved",
+      "detail": "Persistent Dashboard scan history, post-fix rescan history, decimal total background CPU display, responsive driver scanning, Windows driver-ranking safety, and the branded heartbeat remain intact."
     }
   ]
 }
