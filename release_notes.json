@@ -1,27 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.13",
-  "summary": "PulseGuard v0.6.13 keeps long driver work responsive, restores the automatic post-fix Full Health Rescan, and tightens Game Ready, repair verification, and CPU result accuracy.",
+  "version": "0.6.14",
+  "summary": "PulseGuard v0.6.14 fixes the v0.6.13 responsive-driver result handoff, exposes exact driver update status, makes the automatic post-fix rescan unmistakably visible, and repairs full-screen driver-page clipping.",
   "sections": [
     {
-      "heading": "Driver FixAll no longer owns the UI thread",
-      "detail": "The long trusted driver scan/install/verification lane now runs in a separate PowerShell worker while the WinForms message pump stays active, so the main window can continue repainting, moving and updating live status during driver work."
+      "heading": "Responsive Driver FixAll result handoff repaired",
+      "detail": "The detached driver worker now returns a PSCustomObject transport payload and the parent reads it through dictionary-safe accessors, preventing a successful driver run from being misreported as “worker did not report success.”"
     },
     {
-      "heading": "Automatic post-fix Full Health Rescan restored",
-      "detail": "After FIX + OPTIMIZE ALL completes targeted repair verification, PulseGuard automatically launches the existing complete Full Health Scan in its background worker and refreshes the dashboard/results from the fresh post-fix baseline."
+      "heading": "Exact driver update status is visible",
+      "detail": "Drivers / Devices now separates Device Manager health from driver-update state and lists the exact Windows Update, OEM, or Microsoft Catalog package/device that is available, installed, verified, or failed when the provider exposes that detail."
     },
     {
-      "heading": "Game Ready decisions are reconciled by app family",
-      "detail": "SAFE-CLOSE decisions are still made per process, but reporting is aggregated once per app family. Mixed outcomes are shown as PARTIAL with closed/kept process counts instead of contradictory repeated CLOSED and KEPT lines."
+      "heading": "Automatic post-fix Full Health Rescan stays visibly active",
+      "detail": "FIX + OPTIMIZE ALL no longer paints the final completion state before its automatic rescan starts. The Optimize page remains in an explicit POST-FIX FULL HEALTH RESCAN state with live progress until the background diagnostic finishes and refreshes the final baseline."
     },
     {
-      "heading": "Repair proof now recognizes direct startup/registry evidence",
-      "detail": "Startup entries absent from the post-fix SAFE-DISABLE inventory and registry repairs whose post-review confirms zero remaining SAFE-FIX entries receive direct verified proof instead of being left generically unverified."
+      "heading": "Drivers page now fits full screen correctly",
+      "detail": "The Device Manager grid shrinks when there are no errors, the combined driver-status panel gets a stable readable area, and the signed-driver inventory dynamically fills the remaining visible client height with a protected bottom margin on maximize/restore/DPI resize."
     },
     {
-      "heading": "Background CPU comparison is fairer and more stable",
-      "detail": "Optimization before/after CPU now compares actionable plus unresolved background load, not protected Windows/hardware maintenance work. Final sampling adaptively waits for PulseGuard-triggered maintenance activity to settle before showing a regression warning."
+      "heading": "v0.6.13 safety/reporting improvements retained",
+      "detail": "Game Ready app-family reconciliation, direct startup/registry verification, actionable CPU comparison, and the responsive background driver execution model remain in place."
     }
   ]
 }
