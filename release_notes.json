@@ -1,31 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.15",
-  "summary": "PulseGuard v0.6.15 makes manual driver scans responsive, corrects Windows driver-ranking interpretation, removes false missing-driver states, and compacts the Dashboard/Optimize layouts to use screen space more effectively.",
+  "version": "0.6.16",
+  "summary": "PulseGuard v0.6.16 restores the branded heartbeat, keeps Full Health Scan activity visible on Dashboard and Optimize, fixes CPU presentation, expands the Vendor Updates layout, and makes driver/update outcomes clearer without forcing Windows-ranked or BIOS updates.",
   "sections": [
     {
-      "heading": "SCAN DRIVERS no longer freezes the window",
-      "detail": "The complete manual driver scan now runs in a responsive background worker, including Device Manager health, signed-driver inventory, Windows Update checks, and trusted OEM/Microsoft Catalog discovery. Scan and install buttons are mutually disabled while a driver worker is active."
+      "heading": "Full Health Scan details stay on Dashboard",
+      "detail": "A persistent FULL HEALTH SCAN DETAILS panel now shows each background diagnostic stage while the scan runs and keeps the latest scan history visible after completion."
     },
     {
-      "heading": "INSTALL DRIVER UPDATES is clearer",
-      "detail": "The old INSTALL WU DRIVERS label is now INSTALL DRIVER UPDATES because PulseGuard can use verified Windows Update, OEM, and Microsoft Catalog driver lanes while retaining signature, hardware-match, downgrade, BIOS, reboot, and safety protections."
+      "heading": "Post-fix rescan now writes into Optimize details",
+      "detail": "Every automatic post-fix Full Health Rescan stage is appended to LIVE OPTIMIZATION / CLEANUP DETAILS, including the final health score and background CPU result."
     },
     {
-      "heading": "Windows driver ranking is handled correctly",
-      "detail": "PnPUtil ERROR_NO_MORE_ITEMS (259) on a healthy device is treated as Windows keeping the preferred current driver rather than an install failure. Exact rank-rejected candidates are remembered and are not repeatedly advertised as actionable while the installed version and candidate remain unchanged."
+      "heading": "Background CPU keeps measured precision",
+      "detail": "Optimize displays the real settled total background CPU with one decimal place, while actionable/unresolved CPU remains the safety signal for regression warnings. During the automatic rescan the AFTER value shows Measuring... instead of a misleading temporary 0%."
     },
     {
-      "heading": "False missing-driver counts removed",
-      "detail": "Missing metadata in Win32_PnPSignedDriver is now informational. Only Device Manager Code 28 marks a device as actually needing a driver, while other non-zero Device Manager codes remain separate device problems."
+      "heading": "Branded heartbeat restored and pinned",
+      "detail": "THANK YOU FOR TRUSTING PULSEGUARD PC and SYSTEM HEARTBEAT status text are restored. The heartbeat is slightly larger than v0.6.15 and pinned to the true bottom of the Dashboard."
     },
     {
-      "heading": "Dashboard and Optimize layouts are tighter",
-      "detail": "The Dashboard heartbeat is now a thin footer so Findings, Recommended Actions, and Quick Actions receive more vertical space. Optimize compacts the process/changes deck, expands Changes Recorded into the formerly unused right side, and moves the live details panel upward."
+      "heading": "Vendor Updates matches the approved layout",
+      "detail": "Vendor buttons and rows are larger, long explanations wrap inside the table, the final column consumes remaining width, and the table resizes to the visible Tools page instead of clipping text off-screen."
     },
     {
-      "heading": "Normal Game Ready partial safety decisions are informational",
-      "detail": "When some child processes are safely closed and others are intentionally kept by policy, the consolidated PARTIAL decision is logged as information rather than a warning."
+      "heading": "BIOS and driver actions are clearer",
+      "detail": "BIOS updates are explicitly labeled manual because PulseGuard never automatically flashes BIOS. Driver installation now explains when no actionable package exists or when Windows keeps its preferred current driver rather than implying a failed download."
     }
   ]
 }
