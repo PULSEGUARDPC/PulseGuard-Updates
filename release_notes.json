@@ -1,31 +1,39 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.17",
-  "summary": "PulseGuard v0.6.17 is a final UI/notification polish pass: BIOS update notifications work again, ASUS DriverHub opens the official web portal only, Quick Actions fill their card, Optimize panels are rebalanced, and Vendor Updates follows the approved spacious layout.",
+  "version": "0.6.18",
+  "summary": "PulseGuard v0.6.18 is a reliability and final-layout pass: automatic updates preflight locked files safely, UI artwork no longer holds package files open, pending Dashboard/Optimize spacing fixes are enforced, BIOS notifications use an explicit scan flag with full diagnostics, and Dashboard stability/status cards are reconciled with the underlying findings.",
   "sections": [
     {
-      "heading": "BIOS update notification repaired",
-      "detail": "The BIOS row is labeled UPDATE AVAILABLE • MANUAL for safety, and the popup now recognizes that status correctly. The notification is offered after a normal Full Health Scan and also after the automatic post-fix rescan if it has not already been shown in the session. BIOS flashing remains manual."
+      "heading": "Updater lock failure prevented",
+      "detail": "PulseGuard now preflights every program file before changing the installation. If another PulseGuard window is holding a file open, the updater changes nothing and asks you to close the old window and Retry. Rollback is no longer entered for a lock discovered before installation."
     },
     {
-      "heading": "ASUS DriverHub is browser-only",
-      "detail": "OPEN ASUS DRIVERHUB now opens https://driverhub.asus.com/en in the default browser. PulseGuard never launches or installs the local DriverHub application; OPEN BOARD SUPPORT remains the exact motherboard fallback."
+      "heading": "UI artwork no longer locks release assets",
+      "detail": "All splash, logo and Optimize artwork is loaded from memory and cloned before display. The source PNG files are released immediately instead of remaining locked by System.Drawing.Image.FromFile."
     },
     {
-      "heading": "Dashboard Quick Actions fill the available card",
-      "detail": "The five Quick Action buttons now grow evenly with the Quick Actions panel, with centered icons and balanced spacing instead of leaving a large empty gap at the bottom."
+      "heading": "Quick Actions fill the full card",
+      "detail": "All five Dashboard Quick Action buttons divide the entire available card height evenly, including leftover pixels. The previous 64-pixel height cap is removed, so the buttons grow substantially on a maximized Dashboard instead of leaving empty space below."
     },
     {
-      "heading": "Optimize upper panels rebalanced",
-      "detail": "OPTIMIZATION PROCESS now receives 55% of the upper work area and CHANGES RECORDED receives the exact remaining 45%, eliminating the oversized empty region in the Changes panel."
+      "heading": "Optimize process/change split enforced",
+      "detail": "The responsive Optimize layout continues to use an exact 55% Optimization Process / 45% Changes Recorded split, with Changes Recorded consuming the exact remainder and no later resize handler overriding the bounds."
     },
     {
-      "heading": "Vendor Updates layout finalized",
-      "detail": "Vendor buttons are larger, table rows are roomier, long descriptions wrap, and the final explanation column receives more width while still resizing with the Tools page."
+      "heading": "BIOS update prompt made deterministic",
+      "detail": "Vendor scan results now include an explicit BiosUpdateAvailable flag. Full Health Scan and automatic post-fix scan completion queue the BIOS notification from that flag, and the log records evaluation, queueing, display, or the exact reason a prompt was suppressed. BIOS flashing remains manual."
     },
     {
-      "heading": "v0.6.16 scan and CPU improvements preserved",
-      "detail": "Persistent Dashboard scan history, post-fix rescan history, decimal total background CPU display, responsive driver scanning, Windows driver-ranking safety, and the branded heartbeat remain intact."
+      "heading": "Driver header overlap removed",
+      "detail": "The Drivers-page status text now starts after INSTALL DRIVER UPDATES with a real margin, and drops to a second row on narrow windows instead of touching or overlapping the button."
+    },
+    {
+      "heading": "Stability card reconciled with findings",
+      "detail": "The Dashboard Stability card now shows Monitoring when power/shutdown, BSOD, or application-stability history is still being monitored. Excellent is reserved for cases with no active or monitored stability finding; an available BIOS update remains a separate firmware/vendor-update state."
+    },
+    {
+      "heading": "ASUS DriverHub remains browser-only",
+      "detail": "OPEN ASUS DRIVERHUB continues to open https://driverhub.asus.com/en rather than launching or downloading the local DriverHub installer. OPEN BOARD SUPPORT remains the exact motherboard-specific fallback."
     }
   ]
 }
