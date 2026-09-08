@@ -1,23 +1,23 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.19",
-  "summary": "PulseGuard v0.6.19 fixes the post-scan BIOS notification callback, restores an even Optimize Process/Changes layout, and prevents duplicate interactive launches from colliding with the updater.",
+  "version": "0.6.20",
+  "summary": "PulseGuard v0.6.20 is a focused UI/readability correction: true runtime 50/50 Optimize panels, readable Stability and Health cards, and clearer current-versus-historical stability details.",
   "sections": [
     {
-      "heading": "BIOS notification callback exception fixed",
-      "detail": "The post-Full-Health-Scan and post-Fix-All BIOS notification no longer uses a GetNewClosure WinForms callback that could lose script function resolution and throw a .NET 'Write-Log is not recognized' exception. The queued prompt now runs in the normal PulseGuard script context, and callback logging is non-fatal."
+      "heading": "Optimize upper deck now truly stays 50/50",
+      "detail": "Optimization Process and Changes Recorded now live inside a two-column TableLayoutPanel with 50%/50% percentage columns. The layout is recalculated by WinForms after DPI scaling and window resizing, eliminating the autoscale timing issue that could make a source-level 0.50 split render like 75/25."
     },
     {
-      "heading": "Optimize upper deck returned to half-and-half",
-      "detail": "Optimization Process and Changes Recorded now split the available upper row evenly, with Changes Recorded taking the exact remainder. The hologram remains inside the Process panel without allowing that panel to dominate the row."
+      "heading": "Stability card text is readable",
+      "detail": "The dashboard status-card detail area is taller and uses concise monitoring copy. Unexpected shutdown history now reads cleanly instead of clipping a long finding title behind the Details button."
     },
     {
-      "heading": "Duplicate PulseGuard windows blocked",
-      "detail": "The interactive app now owns a named single-instance mutex. The launcher checks the same mutex before running the updater, so a minimized/open PulseGuard window causes the second launch to stop with a clear message instead of attempting an update against files already in use. Worker and scheduled-scan processes remain independent."
+      "heading": "PC Health Score status no longer clips",
+      "detail": "The health gauge is moved slightly upward and the status note has a dedicated two-line area above Keep it up!/action text. Monitoring copy is intentionally split across two lines rather than being squeezed underneath the gauge."
     },
     {
-      "heading": "v0.6.18 health findings preserved",
-      "detail": "The v0.6.18 report correctly identifies BIOS 1078 with stable 1681 available, keeps ASUS DriverHub browser-only, reports zero Device Manager issues, and marks retained shutdown/crash evidence as Monitoring rather than a current active failure."
+      "heading": "Stability history wording clarified",
+      "detail": "Stability Details and the consolidated report now distinguish current/post-fix BSODs and repeated applications from retained historical event counts. The historical top repeated application is named, while current repeated apps are shown separately."
     }
   ]
 }
