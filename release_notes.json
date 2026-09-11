@@ -1,23 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.20",
-  "summary": "PulseGuard v0.6.20 is a focused UI/readability correction: true runtime 50/50 Optimize panels, readable Stability and Health cards, and clearer current-versus-historical stability details.",
+  "version": "0.6.22",
+  "summary": "PulseGuard v0.6.22 keeps automatic Windows Update maintenance from v0.6.21 and hardens ASUS driver routing, Defender security visibility, and large system-managed page-file reporting before wider rollout.",
   "sections": [
     {
-      "heading": "Optimize upper deck now truly stays 50/50",
-      "detail": "Optimization Process and Changes Recorded now live inside a two-column TableLayoutPanel with 50%/50% percentage columns. The layout is recalculated by WinForms after DPI scaling and window resizing, eliminating the autoscale timing issue that could make a source-level 0.50 split render like 75/25."
+      "heading": "Normal Windows updates remain automatic inside FIX + OPTIMIZE ALL",
+      "detail": "PulseGuard uses the official Windows Update Agent to scan, download, and install eligible unattended Windows software updates as part of the one-click repair workflow. Preview/beta/Insider, major feature upgrades, firmware/BIOS/UEFI, browse-only optional, interactive, and EULA-gated updates remain deferred; restart is requested only when Windows or a driver update requires it."
     },
     {
-      "heading": "Stability card text is readable",
-      "detail": "The dashboard status-card detail area is taller and uses concise monitoring copy. Unexpected shutdown history now reads cleanly instead of clipping a long finding title behind the Details button."
+      "heading": "ASUS exact-board support routing hardened",
+      "detail": "The dynamic driver engine now prefers ASUS's locale-qualified /us/supportonly/<board>/helpdesk_download route, validates exact board identity, rejects malformed /undefined/ or /null/ redirects, and keeps the verified requested support URL rather than publishing a broken redirect. Driver Engine version is now 0.2.4."
     },
     {
-      "heading": "PC Health Score status no longer clips",
-      "detail": "The health gauge is moved slightly upward and the status note has a dedicated two-line area above Keep it up!/action text. Monitoring copy is intentionally split across two lines rather than being squeezed underneath the gauge."
+      "heading": "OEM discovery now fails closed with a truthful status",
+      "detail": "If an exact official OEM page is verified but the static response exposes no direct trusted ZIP/CAB package URLs, PulseGuard reports that condition explicitly and does not guess, scrape an untrusted executable, or claim a broken URL. Microsoft Update and exact-hardware-ID driver sources remain available."
     },
     {
-      "heading": "Stability history wording clarified",
-      "detail": "Stability Details and the consolidated report now distinguish current/post-fix BSODs and repeated applications from retained historical event counts. The historical top repeated application is named, while current repeated apps are shown separately."
+      "heading": "Defender Tamper Protection is now visible",
+      "detail": "Full Health Scan adds an informational Security finding when Defender antivirus and real-time protection are active but Tamper Protection is off. Dashboard/sidebar details also surface the state. PulseGuard reports it but does not silently force the setting."
+    },
+    {
+      "heading": "Large system-managed page files are explained, not treated as faults",
+      "detail": "When Windows automatic page-file management has reserved a large page file, PulseGuard now records an informational Virtual Memory finding with allocated/current/peak usage and explains that Windows may resize it after updates or memory-pressure changes. Automatic management is not overridden."
+    },
+    {
+      "heading": "Paused and hidden Windows Update choices remain respected",
+      "detail": "PulseGuard continues to report Windows quality/feature pause state and hidden update counts. It does not defeat a deliberate pause or unhide updates through unsupported policy/registry changes."
     }
   ]
 }
