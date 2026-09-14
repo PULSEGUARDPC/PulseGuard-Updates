@@ -1,27 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.24",
-  "summary": "PulseGuard v0.6.24 hardens the WinGet update stage and improves post-fix reporting so application updates, Windows-component crashes, Store package state, Defender state, and optimization history are represented accurately.",
+  "version": "0.6.25",
+  "summary": "PulseGuard v0.6.25 fixes post-fix health scoring and report preservation, makes WinGet/optimizer history survive the background rescan, and stops normal locked cache files from being reported as Deep Clean warnings.",
   "sections": [
     {
-      "heading": "WinGet stays visible, then closes automatically",
-      "detail": "FIX + OPTIMIZE ALL opens an elevated visible Command Prompt and runs winget upgrade --all. If updates take several minutes, the window stays open for the entire update process. After WinGet actually finishes, PulseGuard keeps the final result visible for 5 seconds and then closes CMD automatically."
+      "heading": "Post-fix health score now uses only new crash evidence",
+      "detail": "Repeated-application rows in Event Viewer are 30-day aggregates. PulseGuard now re-counts crashes after the verified-fix watermark instead of relabeling the entire historical total as current when one newer event appears. A Windows component or app only remains a repeated current fault after 3 or more new crashes occur after the verified fix."
     },
     {
-      "heading": "WinGet is now auditable in the full report",
-      "detail": "PulseGuard streams WinGet output live while also capturing the command, elevation state, start/finish time, duration, exit code, detected upgrade count when WinGet exposes one, status, log path, and complete captured output in the consolidated report."
+      "heading": "sppsvc history no longer resurrects after classification changes",
+      "detail": "Windows Software Protection (sppsvc.exe) now shares the same resolved-event history key used by the earlier Application Stability classification. Old retained crash records stay visible as history but do not keep subtracting health-score points after a verified fix unless the component actually begins repeating again."
     },
     {
-      "heading": "Optimization history survives the automatic post-fix rescan",
-      "detail": "The automatic Full Health Rescan no longer clears OptimizationSteps or OptimizationChanges. The latest repair workflow, before/after snapshots, and WinGet result remain in the live consolidated report until a new FIX + OPTIMIZE ALL run begins."
+      "heading": "Post-fix reports preserve WinGet and optimization evidence",
+      "detail": "The Full Health Scan runs in a background PowerShell worker, which does not share the parent UI process's optimization memory. PulseGuard now regenerates the consolidated report in the parent process after importing the fresh scan, preserving OptimizationSteps, OptimizationChanges, before/after snapshots, WinGet results, Deep Clean results, registry/privacy evidence, and other current-session maintenance data."
     },
     {
-      "heading": "Smarter Windows crash classification",
-      "detail": "Repeated sppsvc.exe crashes are now identified as Windows Software Protection / licensing-component stability evidence instead of being mislabeled as an ordinary third-party app that should be repaired from a vendor. PulseGuard does not perform aggressive licensing/token resets automatically."
+      "heading": "Deep Clean safe skips are no longer warnings",
+      "detail": "Live browser, DirectX, iCUE, and other disposable cache files that are locked or access-protected by running applications are now recorded as safely skipped rather than cleanup errors. Deep Clean separately reports deleted items, freed space, safely skipped active files, and real cleanup errors. Safe skips do not turn FIX + OPTIMIZE ALL into a warning."
     },
     {
-      "heading": "Store, Defender, and update-channel reporting",
-      "detail": "Microsoft Store package-state issues now name the affected package and are review/info findings rather than score-penalizing active warnings. Defender Tamper Protection off is surfaced as informational without force-changing policy, never/no-recorded full-scan sentinel values are normalized, and Windows software updates, Windows driver updates, and WinGet application updates are reported as separate channels."
+      "heading": "Cleaner and registry wording is clearer",
+      "detail": "Deep Clean preview items are described as candidates because running applications may keep some cache files open. Registry review-only evidence is explicitly labeled protected/review-only and does not imply that a repair failed or that the health score should be reduced."
+    },
+    {
+      "heading": "WinGet visibility retained",
+      "detail": "The WinGet application-update Command Prompt is explicitly launched as a normal elevated window, stays open for the full winget upgrade --all run, then keeps the completed result visible for 5 seconds before closing automatically."
     }
   ]
 }
