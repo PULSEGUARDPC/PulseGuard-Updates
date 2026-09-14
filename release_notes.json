@@ -1,31 +1,23 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.22",
-  "summary": "PulseGuard v0.6.22 keeps automatic Windows Update maintenance from v0.6.21 and hardens ASUS driver routing, Defender security visibility, and large system-managed page-file reporting before wider rollout.",
+  "version": "0.6.23",
+  "summary": "PulseGuard v0.6.23 adds a visible WinGet application-update stage to FIX + OPTIMIZE ALL so installed applications can be upgraded as part of the normal maintenance workflow.",
   "sections": [
     {
-      "heading": "Normal Windows updates remain automatic inside FIX + OPTIMIZE ALL",
-      "detail": "PulseGuard uses the official Windows Update Agent to scan, download, and install eligible unattended Windows software updates as part of the one-click repair workflow. Preview/beta/Insider, major feature upgrades, firmware/BIOS/UEFI, browse-only optional, interactive, and EULA-gated updates remain deferred; restart is requested only when Windows or a driver update requires it."
+      "heading": "Visible WinGet application updates",
+      "detail": "FIX + OPTIMIZE ALL now opens a normal visible Command Prompt titled PulseGuard PC - Updating Applications and runs winget upgrade --all so the user can watch WinGet process available application upgrades."
     },
     {
-      "heading": "ASUS exact-board support routing hardened",
-      "detail": "The dynamic driver engine now prefers ASUS's locale-qualified /us/supportonly/<board>/helpdesk_download route, validates exact board identity, rejects malformed /undefined/ or /null/ redirects, and keeps the verified requested support URL rather than publishing a broken redirect. Driver Engine version is now 0.2.4."
+      "heading": "PulseGuard waits before continuing",
+      "detail": "The optimizer keeps its own window responsive while the Command Prompt is open and waits for WinGet to finish before application-integrity verification and later repair stages continue."
     },
     {
-      "heading": "OEM discovery now fails closed with a truthful status",
-      "detail": "If an exact official OEM page is verified but the static response exposes no direct trusted ZIP/CAB package URLs, PulseGuard reports that condition explicitly and does not guess, scrape an untrusted executable, or claim a broken URL. Microsoft Update and exact-hardware-ID driver sources remain available."
+      "heading": "Safe failure handling",
+      "detail": "If WinGet is unavailable or the command returns a non-zero exit code, the application-update stage is recorded as a warning instead of aborting the complete FIX + OPTIMIZE ALL workflow."
     },
     {
-      "heading": "Defender Tamper Protection is now visible",
-      "detail": "Full Health Scan adds an informational Security finding when Defender antivirus and real-time protection are active but Tamper Protection is off. Dashboard/sidebar details also surface the state. PulseGuard reports it but does not silently force the setting."
-    },
-    {
-      "heading": "Large system-managed page files are explained, not treated as faults",
-      "detail": "When Windows automatic page-file management has reserved a large page file, PulseGuard now records an informational Virtual Memory finding with allocated/current/peak usage and explains that Windows may resize it after updates or memory-pressure changes. Automatic management is not overridden."
-    },
-    {
-      "heading": "Paused and hidden Windows Update choices remain respected",
-      "detail": "PulseGuard continues to report Windows quality/feature pause state and hidden update counts. It does not defeat a deliberate pause or unhide updates through unsupported policy/registry changes."
+      "heading": "Version alignment",
+      "detail": "The PulseGuard runtime version and release-notes version are aligned to v0.6.23 for this build."
     }
   ]
 }
