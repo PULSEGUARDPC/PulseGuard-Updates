@@ -1,23 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.23",
-  "summary": "PulseGuard v0.6.23 adds a visible WinGet application-update stage to FIX + OPTIMIZE ALL so installed applications can be upgraded as part of the normal maintenance workflow.",
+  "version": "0.6.24",
+  "summary": "PulseGuard v0.6.24 hardens the WinGet update stage and improves post-fix reporting so application updates, Windows-component crashes, Store package state, Defender state, and optimization history are represented accurately.",
   "sections": [
     {
-      "heading": "Visible WinGet application updates",
-      "detail": "FIX + OPTIMIZE ALL now opens a normal visible Command Prompt titled PulseGuard PC - Updating Applications and runs winget upgrade --all so the user can watch WinGet process available application upgrades."
+      "heading": "WinGet stays visible, then closes automatically",
+      "detail": "FIX + OPTIMIZE ALL opens an elevated visible Command Prompt and runs winget upgrade --all. If updates take several minutes, the window stays open for the entire update process. After WinGet actually finishes, PulseGuard keeps the final result visible for 5 seconds and then closes CMD automatically."
     },
     {
-      "heading": "PulseGuard waits before continuing",
-      "detail": "The optimizer keeps its own window responsive while the Command Prompt is open and waits for WinGet to finish before application-integrity verification and later repair stages continue."
+      "heading": "WinGet is now auditable in the full report",
+      "detail": "PulseGuard streams WinGet output live while also capturing the command, elevation state, start/finish time, duration, exit code, detected upgrade count when WinGet exposes one, status, log path, and complete captured output in the consolidated report."
     },
     {
-      "heading": "Safe failure handling",
-      "detail": "If WinGet is unavailable or the command returns a non-zero exit code, the application-update stage is recorded as a warning instead of aborting the complete FIX + OPTIMIZE ALL workflow."
+      "heading": "Optimization history survives the automatic post-fix rescan",
+      "detail": "The automatic Full Health Rescan no longer clears OptimizationSteps or OptimizationChanges. The latest repair workflow, before/after snapshots, and WinGet result remain in the live consolidated report until a new FIX + OPTIMIZE ALL run begins."
     },
     {
-      "heading": "Version alignment",
-      "detail": "The PulseGuard runtime version and release-notes version are aligned to v0.6.23 for this build."
+      "heading": "Smarter Windows crash classification",
+      "detail": "Repeated sppsvc.exe crashes are now identified as Windows Software Protection / licensing-component stability evidence instead of being mislabeled as an ordinary third-party app that should be repaired from a vendor. PulseGuard does not perform aggressive licensing/token resets automatically."
+    },
+    {
+      "heading": "Store, Defender, and update-channel reporting",
+      "detail": "Microsoft Store package-state issues now name the affected package and are review/info findings rather than score-penalizing active warnings. Defender Tamper Protection off is surfaced as informational without force-changing policy, never/no-recorded full-scan sentinel values are normalized, and Windows software updates, Windows driver updates, and WinGet application updates are reported as separate channels."
     }
   ]
 }
