@@ -1,27 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.28",
-  "summary": "PulseGuard v0.6.28 fixes the incomplete-install/preflight failure exposed on a real OneDrive/Desktop installation and adds guarded local runtime self-repair for required configuration, driver-engine files, and working folders.",
+  "version": "0.6.29",
+  "summary": "PulseGuard v0.6.29 hardens the automatic updater so deleted or rolled-back GitHub releases cannot remain falsely advertised as installable updates, while retaining the v0.6.28 runtime self-repair and all v0.6.27 diagnostic/repair fixes.",
   "sections": [
     {
-      "heading": "FIX + OPTIMIZE preflight now self-repairs required folders",
-      "detail": "Backups, Reports, Logs, Data and DisabledStartup folders are created automatically when missing and then write-tested. A missing empty working folder no longer stops the repair workflow."
+      "heading": "Updater now validates the actual GitHub release before showing Update Found",
+      "detail": "When latest.json advertises a newer version, PulseGuard now verifies that the matching GitHub release tag and exact ZIP asset are currently published before displaying an available-update state or downloading anything."
     },
     {
-      "heading": "Critical runtime/config files have recovery copies",
-      "detail": "PulseGuard now ships recovery copies of process_rules.json, knowledge_base.json, vendor_update_rules.json, registry_cleanup_rules.json, PulseGuard_DriverEngine.ps1 and PulseGuard_DriverCatalog.json. If one of those primary files is missing, PulseGuard restores only the missing file from its bundled recovery copy and never overwrites an existing primary file through this self-heal path."
+      "heading": "Deleted/rolled-back releases are ignored safely",
+      "detail": "If latest.json still references a release that has been deleted, has no matching ZIP asset, or disagrees with the published asset size/URL, PulseGuard treats that manifest as orphaned/inconsistent, stays on the installed version, and does not show a false installable update."
     },
     {
-      "heading": "Release validation now rejects incomplete packages",
-      "detail": "The updater now treats every critical rule/config file and its recovery copy as required release payload. A release missing these files is rejected before installation instead of being allowed to create a partially functional PulseGuard installation."
+      "heading": "Manifest version, tag and asset name must agree",
+      "detail": "The package URL must now exactly match the manifest version using releases/download/vX.Y.Z/PulseGuard_PC_vX.Y.Z.zip. A manifest cannot advertise one version while pointing at a different tag or asset name."
     },
     {
-      "heading": "Runtime layout validation is stricter",
-      "detail": "PulseGuard startup/runtime layout checks now cover the rule/config files and recovery payload needed by FIX + OPTIMIZE, driver scanning and repair preflight, preventing silent partial installs from reaching the repair workflow."
+      "heading": "Release validation has a safe network fallback",
+      "detail": "PulseGuard first checks the GitHub release API. If that validation path is temporarily unavailable, it falls back to a direct HEAD check of the exact release asset without installing or modifying program files."
     },
     {
-      "heading": "All v0.6.27 diagnostics and repair fixes retained",
-      "detail": "The SFC corruption repair gate, PCIe WHEA Event 17 resolution, historical WHEA handling, unattended WinGet/restart reporting, protected PATH classification, Deep Clean reporting and driver-update audit changes remain included."
+      "heading": "Incomplete-install recovery retained",
+      "detail": "All v0.6.28 protections remain: missing Data/Logs/Reports/Backups folders are recreated, critical missing runtime/config files can be restored from protected bundled recovery copies, and incomplete releases are rejected before installation."
+    },
+    {
+      "heading": "Repair and diagnostics retained",
+      "detail": "All v0.6.27 fixes remain included, including forced SFC repair when corruption is proven, PCIe WHEA Event 17 diagnostics/history handling, unattended restart-aware WinGet, protected system PATH handling, Deep Clean reporting, exact driver-update auditing, and guarded sppsvc repair behavior."
     }
   ]
 }

@@ -2,10 +2,10 @@
   "schemaVersion": 3,
   "product": "PulseGuard PC",
   "channel": "stable",
-  "version": "0.6.28",
-  "publishedAt": "2026-09-15T05:35:51Z",
-  "packageUrl": "https://github.com/PULSEGUARDPC/PulseGuard-Updates/releases/download/v0.6.28/PulseGuard_PC_v0.6.28.zip",
-  "packageSizeBytes": 1322446,
-  "packageSha256": "7ae5be4a2974c7a93a9c1bd3538f996cd0543209b0e79da1371cbb11882fbb27",
+  "version": "0.6.29",
+  "publishedAt": "2026-09-15T06:02:36Z",
+  "packageUrl": "https://github.com/PULSEGUARDPC/PulseGuard-Updates/releases/download/v0.6.29/PulseGuard_PC_v0.6.29.zip",
+  "packageSizeBytes": 1323065,
+  "packageSha256": "b000e0251a9512354cfe4ad3c9ac511bb4b60d061c7e513ff5a16c83ae8695d5",
   "releaseNotesUrl": "https://raw.githubusercontent.com/PULSEGUARDPC/PulseGuard-Updates/main/release_notes.json"
 }
