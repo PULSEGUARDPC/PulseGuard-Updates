@@ -1,39 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.27",
-  "summary": "PulseGuard v0.6.27 fixes the Windows-integrity repair gate exposed by a real i9/RTX 3070 test system, improves PCIe WHEA diagnostics, hardens WinGet automation/reboot reporting, protects Windows system-profile PATH entries, and preserves exact driver-update evidence.",
+  "version": "0.6.28",
+  "summary": "PulseGuard v0.6.28 fixes the incomplete-install/preflight failure exposed on a real OneDrive/Desktop installation and adds guarded local runtime self-repair for required configuration, driver-engine files, and working folders.",
   "sections": [
     {
-      "heading": "SFC corruption now forces the real repair path",
-      "detail": "FIX + OPTIMIZE ALL now treats the completed Full Health Scan as authoritative. If the baseline proves SFC corruption, a healthy DISM /CheckHealth result can no longer skip repair. PulseGuard runs DISM /RestoreHealth, then SFC /scannow, then a deep DISM/SFC verification pass before deciding whether Windows integrity is fixed."
+      "heading": "FIX + OPTIMIZE preflight now self-repairs required folders",
+      "detail": "Backups, Reports, Logs, Data and DisabledStartup folders are created automatically when missing and then write-tested. A missing empty working folder no longer stops the repair workflow."
     },
     {
-      "heading": "PCIe WHEA Event 17 diagnostics are more specific",
-      "detail": "WHEA parsing now reads both Component and Reported by component formats plus Primary/Secondary Bus:Device:Function and PCI device names. PulseGuard resolves the reported PCI hardware ID against its driver inventory and records the matching root-port device and any direct present downstream PnP devices it can safely identify."
+      "heading": "Critical runtime/config files have recovery copies",
+      "detail": "PulseGuard now ships recovery copies of process_rules.json, knowledge_base.json, vendor_update_rules.json, registry_cleanup_rules.json, PulseGuard_DriverEngine.ps1 and PulseGuard_DriverCatalog.json. If one of those primary files is missing, PulseGuard restores only the missing file from its bundled recovery copy and never overwrites an existing primary file through this self-heal path."
     },
     {
-      "heading": "Resolved WHEA history stays historical",
-      "detail": "Event-backed INFO findings such as corrected WHEA Event 17 records now honor the same verified-fix watermark logic as higher-severity event findings. Old corrected-error records remain available for diagnostics but are shown as monitoring/history after a relevant verified repair or driver update unless a newer matching event occurs."
+      "heading": "Release validation now rejects incomplete packages",
+      "detail": "The updater now treats every critical rule/config file and its recovery copy as required release payload. A release missing these files is rejected before installation instead of being allowed to create a partially functional PulseGuard installation."
     },
     {
-      "heading": "WinGet is fully unattended and restart-aware",
-      "detail": "The visible elevated application-update stage now runs winget upgrade --all with --accept-source-agreements and --accept-package-agreements so a first-use Microsoft Store source prompt cannot stall FIX + OPTIMIZE ALL. Output is still shown live, captured to the report/log, and left visible for five seconds after completion."
+      "heading": "Runtime layout validation is stricter",
+      "detail": "PulseGuard startup/runtime layout checks now cover the rule/config files and recovery payload needed by FIX + OPTIMIZE, driver scanning and repair preflight, preventing silent partial installs from reaching the repair workflow."
     },
     {
-      "heading": "WinGet path quoting and restart reporting fixed",
-      "detail": "PulseGuard now launches WinGet through a temporary quoted CMD helper so install locations containing spaces, including OneDrive/Desktop paths, preserve the full log/result arguments. Installer output is scanned for restart-required messages and the report, optimization verification, and final status explicitly surface when Windows should be restarted."
-    },
-    {
-      "heading": "Windows system-profile PATH entries are review-only",
-      "detail": "A temporarily missing Windows system-profile directory is no longer classified as an automatic SAFE-FIX simply because the folder does not exist during one scan. Those protected machine PATH entries are retained as REVIEW evidence instead of PulseGuard trying to rewrite HKLM PATH."
-    },
-    {
-      "heading": "Deep Clean summary now matches its detailed result",
-      "detail": "The FIX + OPTIMIZE workflow summary now reports Deleted, Freed, Safely skipped/in-use, and Actual errors as separate values. Locked active cache files remain harmless skips and no longer disappear into a misleading skipped/errors count."
-    },
-    {
-      "heading": "Exact driver-update audit is retained",
-      "detail": "The consolidated report now includes a DriverUpdateAction block that survives the automatic post-fix rescan and records the driver-update engine version, update count, restart requirement, source, package/device name, device ID where available, and before/candidate/after versions for verified installs."
+      "heading": "All v0.6.27 diagnostics and repair fixes retained",
+      "detail": "The SFC corruption repair gate, PCIe WHEA Event 17 resolution, historical WHEA handling, unattended WinGet/restart reporting, protected PATH classification, Deep Clean reporting and driver-update audit changes remain included."
     }
   ]
 }
