@@ -1,31 +1,39 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.26",
-  "summary": "PulseGuard v0.6.26 adds a guarded automatic repair lane for genuine Windows Software Protection (sppsvc.exe) failures without taking ownership of protected folders or blindly replacing Windows service permissions.",
+  "version": "0.6.27",
+  "summary": "PulseGuard v0.6.27 fixes the Windows-integrity repair gate exposed by a real i9/RTX 3070 test system, improves PCIe WHEA diagnostics, hardens WinGet automation/reboot reporting, protects Windows system-profile PATH entries, and preserves exact driver-update evidence.",
   "sections": [
     {
-      "heading": "Guarded sppsvc automatic repair",
-      "detail": "When current sppsvc.exe crash evidence exists, FIX + OPTIMIZE ALL now verifies the Microsoft-signed C:\\Windows\\System32\\sppsvc.exe and the registered sppsvc service, verifies Task Scheduler, and first attempts a normal Software Protection service restart. If the service is already running or starts normally, PulseGuard stops there and records the issue as fixed/monitoring."
+      "heading": "SFC corruption now forces the real repair path",
+      "detail": "FIX + OPTIMIZE ALL now treats the completed Full Health Scan as authoritative. If the baseline proves SFC corruption, a healthy DISM /CheckHealth result can no longer skip repair. PulseGuard runs DISM /RestoreHealth, then SFC /scannow, then a deep DISM/SFC verification pass before deciding whether Windows integrity is fixed."
     },
     {
-      "heading": "Access Denied gets a targeted permission check",
-      "detail": "Only when the service-start result proves Access Denied does PulseGuard inspect C:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SoftwareProtectionPlatform. It preserves the existing ACL and ownership and adds only missing NETWORK SERVICE Read/Execute access. PulseGuard does not take ownership of the folder."
+      "heading": "PCIe WHEA Event 17 diagnostics are more specific",
+      "detail": "WHEA parsing now reads both Component and Reported by component formats plus Primary/Secondary Bus:Device:Function and PCI device names. PulseGuard resolves the reported PCI hardware ID against its driver inventory and records the matching root-port device and any direct present downstream PnP devices it can safely identify."
     },
     {
-      "heading": "DISM/SFC and SYSTEM are fallbacks, not the first move",
-      "detail": "If sppsvc still will not start, PulseGuard runs DISM /RestoreHealth and SFC /scannow and retries. If Access Denied still persists while elevated, PulseGuard creates a temporary Task Scheduler job running as LocalSystem for only the targeted task-folder ACL/service-start operation, waits for the result, and deletes the task/helper immediately afterward."
+      "heading": "Resolved WHEA history stays historical",
+      "detail": "Event-backed INFO findings such as corrected WHEA Event 17 records now honor the same verified-fix watermark logic as higher-severity event findings. Old corrected-error records remain available for diagnostics but are shown as monitoring/history after a relevant verified repair or driver update unless a newer matching event occurs."
     },
     {
-      "heading": "No blind service security-descriptor replacement",
-      "detail": "Before privileged fallback, PulseGuard captures sc.exe qc sppsvc and sc.exe sdshow sppsvc evidence. v0.6.26 does not hard-code or replace the sppsvc service SDDL because PulseGuard does not yet bundle a validated Windows-build-specific known-good descriptor. The original descriptor is retained in the report for diagnosis."
+      "heading": "WinGet is fully unattended and restart-aware",
+      "detail": "The visible elevated application-update stage now runs winget upgrade --all with --accept-source-agreements and --accept-package-agreements so a first-use Microsoft Store source prompt cannot stall FIX + OPTIMIZE ALL. Output is still shown live, captured to the report/log, and left visible for five seconds after completion."
     },
     {
-      "heading": "Repair verification and historical-event handling",
-      "detail": "A successful repair requires sppsvc to reach SERVICE_RUNNING. PulseGuard then writes a verified-fix watermark so retained Event Viewer crashes remain available as history but do not reduce the current health score unless a newer crash occurs after the repair."
+      "heading": "WinGet path quoting and restart reporting fixed",
+      "detail": "PulseGuard now launches WinGet through a temporary quoted CMD helper so install locations containing spaces, including OneDrive/Desktop paths, preserve the full log/result arguments. Installer output is scanned for restart-required messages and the report, optimization verification, and final status explicitly surface when Windows should be restarted."
     },
     {
-      "heading": "Detailed repair audit",
-      "detail": "The consolidated report now includes a SoftwareProtectionRepair section with the trigger crash time, service state before/after, task-folder permission state before/after, whether DISM/SFC or the temporary SYSTEM fallback was used, the original service SDDL, and every repair action taken."
+      "heading": "Windows system-profile PATH entries are review-only",
+      "detail": "A temporarily missing Windows system-profile directory is no longer classified as an automatic SAFE-FIX simply because the folder does not exist during one scan. Those protected machine PATH entries are retained as REVIEW evidence instead of PulseGuard trying to rewrite HKLM PATH."
+    },
+    {
+      "heading": "Deep Clean summary now matches its detailed result",
+      "detail": "The FIX + OPTIMIZE workflow summary now reports Deleted, Freed, Safely skipped/in-use, and Actual errors as separate values. Locked active cache files remain harmless skips and no longer disappear into a misleading skipped/errors count."
+    },
+    {
+      "heading": "Exact driver-update audit is retained",
+      "detail": "The consolidated report now includes a DriverUpdateAction block that survives the automatic post-fix rescan and records the driver-update engine version, update count, restart requirement, source, package/device name, device ID where available, and before/candidate/after versions for verified installs."
     }
   ]
 }
