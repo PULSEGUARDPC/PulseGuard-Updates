@@ -1,23 +1,43 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.30",
-  "summary": "PulseGuard v0.6.30 fixes a Windows PowerShell 5.1 generic-collection type-binding crash that could stop FIX & OPTIMIZE while building the driver-update audit, and adds a preflight regression test so this exact failure is caught before maintenance begins.",
+  "version": "0.6.31",
+  "summary": "PulseGuard v0.6.31 expands the evidence-first health/repair pipeline: deeper Windows integrity checks, evidence-gated filesystem and DNS repair, non-destructive Windows Update recovery, merged GPU evidence, component-store verification, media-aware storage optimization, recovery readiness checks, and stricter truth reporting.",
   "sections": [
     {
-      "heading": "FIX & OPTIMIZE driver-audit crash fixed",
-      "detail": "The driver-update audit no longer passes a generic List[object] through Windows PowerShell 5.1 array-subexpression counting. The code now counts ICollection/IEnumerable values safely and resolves UpdatedCount independently, preventing the System.ArgumentException: Argument types do not match failure seen while exporting the maintenance report."
+      "heading": "Windows integrity and the repair commands are now fully staged",
+      "detail": "Full Health records DISM /CheckHealth, DISM /ScanHealth and SFC /verifyonly evidence, uses Repair-WindowsImage only as a structured fallback when DISM console text cannot be classified, and records current-session CBS [SR] corroboration. FIX & OPTIMIZE runs DISM /RestoreHealth and SFC /scannow in separate visible elevated windows only for positively repairable corruption, then independently repeats the deep checks before claiming VERIFIED_FIXED. Non-repairable or incomplete diagnostics become REVIEW instead of blind repair, and restart-required servicing becomes REBOOT_REQUIRED until a post-restart deep scan verifies clean."
     },
     {
-      "heading": "Regression test added to safety preflight",
-      "detail": "Preflight now constructs and counts a real generic List[object] and runs a mock driver-update audit. If Windows PowerShell cannot safely process that exact data shape, FIX & OPTIMIZE is blocked before any maintenance action starts instead of failing later in the workflow."
+      "heading": "Filesystem repair is evidence-gated",
+      "detail": "Full Health uses the dirty bit, volume evidence and CHKDSK /scan. CHKDSK /f runs only when that evidence or an NTFS corruption event justifies it. If the active Windows volume schedules the repair for restart, PulseGuard reports REBOOT_REQUIRED and waits for a later CHKDSK /scan before claiming success."
     },
     {
-      "heading": "Driver audit fallback hardened",
-      "detail": "When a driver engine result omits or returns an unusable UpdatedCount value, PulseGuard now falls back to the number of verified collected update rows without unsafe nested expression evaluation. Driver audit items are converted to a plain object array before report serialization."
+      "heading": "Targeted DNS repair instead of blind network reset",
+      "detail": "PulseGuard compares direct-IP TCP connectivity with DNS resolution. ipconfig /flushdns is offered automatically only when direct-IP connectivity works while DNS resolution fails, and DNS is re-tested afterward."
     },
     {
-      "heading": "All recent repair and updater fixes retained",
-      "detail": "v0.6.30 retains the v0.6.29 GitHub release validation, v0.6.28 incomplete-install recovery, v0.6.27 SFC/WHEA/WinGet/driver-audit fixes, and the guarded sppsvc repair lane from v0.6.26."
+      "heading": "Boot repair commands are recovery-only capabilities",
+      "detail": "bootrec /fixmbr, bootrec /fixboot, bootrec /rebuildbcd and BCDBoot are mapped under Recovery / Boot but are never executed blindly during an online FIX & OPTIMIZE run. PulseGuard inspects WinRE and the current BCD online and leaves boot rewriting for evidence-gated WinRE/manual escalation."
+    },
+    {
+      "heading": "Windows Update failure recovery is non-destructive",
+      "detail": "Software/security updates retain per-update ResultCode/HRESULT and SucceededWithErrors is a warning. On a real failure PulseGuard captures Windows Update diagnostics, verifies servicing health, preserves DataStore, Download and catroot2 as timestamped .bak folders, restarts services, verifies the Microsoft Update API, retries once, and rechecks. It does not delete the saved cache or reset Windows Update service ACLs."
+    },
+    {
+      "heading": "Component store and storage maintenance are independently verified",
+      "detail": "DISM /StartComponentCleanup runs only when /AnalyzeComponentStore recommends it and is followed by another analysis. Storage optimization uses Windows defrag /O so Windows selects media-appropriate handling; any partial volume failure remains REVIEW."
+    },
+    {
+      "heading": "Display and source evidence expanded",
+      "detail": "GPU inventory now merges Win32_VideoController, present PnP Display devices and signed display-driver evidence. Findings also consume filesystem, WinRE/BCD, VSS, activation, WinGet source, DNS and Windows Update failure-history evidence without creating one tab per command."
+    },
+    {
+      "heading": "Visible sequential maintenance and stronger reports",
+      "detail": "Repair/update actions that need elevation run one at a time in visible Administrator CMD/PowerShell windows, capture their results, remain visible for five seconds after completion, and then continue. Reports retain the merged display inventory, maintenance results, Windows Update diagnostics/cache preservation/retry evidence, and exact source-stage warnings."
+    },
+    {
+      "heading": "WinGet reliability fixes retained",
+      "detail": "The v0.6.31 WinGet executable-resolution fix remains included: PulseGuard resolves winget.exe as an Application command, passes the absolute executable path into the elevated helper, captures invocation failures, accepts agreements, records output, and detects restart-required results."
     }
   ]
 }
