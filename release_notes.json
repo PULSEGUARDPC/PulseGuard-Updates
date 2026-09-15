@@ -1,31 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.25",
-  "summary": "PulseGuard v0.6.25 fixes post-fix health scoring and report preservation, makes WinGet/optimizer history survive the background rescan, and stops normal locked cache files from being reported as Deep Clean warnings.",
+  "version": "0.6.26",
+  "summary": "PulseGuard v0.6.26 adds a guarded automatic repair lane for genuine Windows Software Protection (sppsvc.exe) failures without taking ownership of protected folders or blindly replacing Windows service permissions.",
   "sections": [
     {
-      "heading": "Post-fix health score now uses only new crash evidence",
-      "detail": "Repeated-application rows in Event Viewer are 30-day aggregates. PulseGuard now re-counts crashes after the verified-fix watermark instead of relabeling the entire historical total as current when one newer event appears. A Windows component or app only remains a repeated current fault after 3 or more new crashes occur after the verified fix."
+      "heading": "Guarded sppsvc automatic repair",
+      "detail": "When current sppsvc.exe crash evidence exists, FIX + OPTIMIZE ALL now verifies the Microsoft-signed C:\\Windows\\System32\\sppsvc.exe and the registered sppsvc service, verifies Task Scheduler, and first attempts a normal Software Protection service restart. If the service is already running or starts normally, PulseGuard stops there and records the issue as fixed/monitoring."
     },
     {
-      "heading": "sppsvc history no longer resurrects after classification changes",
-      "detail": "Windows Software Protection (sppsvc.exe) now shares the same resolved-event history key used by the earlier Application Stability classification. Old retained crash records stay visible as history but do not keep subtracting health-score points after a verified fix unless the component actually begins repeating again."
+      "heading": "Access Denied gets a targeted permission check",
+      "detail": "Only when the service-start result proves Access Denied does PulseGuard inspect C:\\Windows\\System32\\Tasks\\Microsoft\\Windows\\SoftwareProtectionPlatform. It preserves the existing ACL and ownership and adds only missing NETWORK SERVICE Read/Execute access. PulseGuard does not take ownership of the folder."
     },
     {
-      "heading": "Post-fix reports preserve WinGet and optimization evidence",
-      "detail": "The Full Health Scan runs in a background PowerShell worker, which does not share the parent UI process's optimization memory. PulseGuard now regenerates the consolidated report in the parent process after importing the fresh scan, preserving OptimizationSteps, OptimizationChanges, before/after snapshots, WinGet results, Deep Clean results, registry/privacy evidence, and other current-session maintenance data."
+      "heading": "DISM/SFC and SYSTEM are fallbacks, not the first move",
+      "detail": "If sppsvc still will not start, PulseGuard runs DISM /RestoreHealth and SFC /scannow and retries. If Access Denied still persists while elevated, PulseGuard creates a temporary Task Scheduler job running as LocalSystem for only the targeted task-folder ACL/service-start operation, waits for the result, and deletes the task/helper immediately afterward."
     },
     {
-      "heading": "Deep Clean safe skips are no longer warnings",
-      "detail": "Live browser, DirectX, iCUE, and other disposable cache files that are locked or access-protected by running applications are now recorded as safely skipped rather than cleanup errors. Deep Clean separately reports deleted items, freed space, safely skipped active files, and real cleanup errors. Safe skips do not turn FIX + OPTIMIZE ALL into a warning."
+      "heading": "No blind service security-descriptor replacement",
+      "detail": "Before privileged fallback, PulseGuard captures sc.exe qc sppsvc and sc.exe sdshow sppsvc evidence. v0.6.26 does not hard-code or replace the sppsvc service SDDL because PulseGuard does not yet bundle a validated Windows-build-specific known-good descriptor. The original descriptor is retained in the report for diagnosis."
     },
     {
-      "heading": "Cleaner and registry wording is clearer",
-      "detail": "Deep Clean preview items are described as candidates because running applications may keep some cache files open. Registry review-only evidence is explicitly labeled protected/review-only and does not imply that a repair failed or that the health score should be reduced."
+      "heading": "Repair verification and historical-event handling",
+      "detail": "A successful repair requires sppsvc to reach SERVICE_RUNNING. PulseGuard then writes a verified-fix watermark so retained Event Viewer crashes remain available as history but do not reduce the current health score unless a newer crash occurs after the repair."
     },
     {
-      "heading": "WinGet visibility retained",
-      "detail": "The WinGet application-update Command Prompt is explicitly launched as a normal elevated window, stays open for the full winget upgrade --all run, then keeps the completed result visible for 5 seconds before closing automatically."
+      "heading": "Detailed repair audit",
+      "detail": "The consolidated report now includes a SoftwareProtectionRepair section with the trigger crash time, service state before/after, task-folder permission state before/after, whether DISM/SFC or the temporary SYSTEM fallback was used, the original service SDDL, and every repair action taken."
     }
   ]
 }
