@@ -1,8 +1,12 @@
 {
   "product": "PulseGuard PC",
   "version": "0.6.31",
-  "summary": "PulseGuard v0.6.31 expands the evidence-first health/repair pipeline: deeper Windows integrity checks, evidence-gated filesystem and DNS repair, non-destructive Windows Update recovery, merged GPU evidence, component-store verification, media-aware storage optimization, recovery readiness checks, and stricter truth reporting.",
+  "summary": "PulseGuard v0.6.31 fixes the automatic-update bridge from v0.6.30 and includes the complete evidence-first scan, repair and verification improvements.",
   "sections": [
+    {
+      "heading": "Automatic update from v0.6.30 is bridge-safe again",
+      "detail": "The maintenance/recovery logic is integrated into the already-approved main optimizer payload instead of introducing new runtime filenames that the installed v0.6.30 updater rejects. The release therefore fits the v0.6.30 strict file allowlist, while the included updater recognizes the maintenance-engine path for a future controlled split. No manual file copying is required."
+    },
     {
       "heading": "Windows integrity and the repair commands are now fully staged",
       "detail": "Full Health records DISM /CheckHealth, DISM /ScanHealth and SFC /verifyonly evidence, uses Repair-WindowsImage only as a structured fallback when DISM console text cannot be classified, and records current-session CBS [SR] corroboration. FIX & OPTIMIZE runs DISM /RestoreHealth and SFC /scannow in separate visible elevated windows only for positively repairable corruption, then independently repeats the deep checks before claiming VERIFIED_FIXED. Non-repairable or incomplete diagnostics become REVIEW instead of blind repair, and restart-required servicing becomes REBOOT_REQUIRED until a post-restart deep scan verifies clean."
@@ -37,7 +41,7 @@
     },
     {
       "heading": "WinGet reliability fixes retained",
-      "detail": "The v0.6.31 WinGet executable-resolution fix remains included: PulseGuard resolves winget.exe as an Application command, passes the absolute executable path into the elevated helper, captures invocation failures, accepts agreements, records output, and detects restart-required results."
+      "detail": "The WinGet executable-resolution fix remains included: PulseGuard resolves winget.exe as an Application command, passes the absolute executable path into the elevated helper, captures invocation failures, accepts agreements, records output, and detects restart-required results."
     }
   ]
 }
