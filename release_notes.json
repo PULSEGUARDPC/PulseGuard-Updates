@@ -1,31 +1,23 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.29",
-  "summary": "PulseGuard v0.6.29 hardens the automatic updater so deleted or rolled-back GitHub releases cannot remain falsely advertised as installable updates, while retaining the v0.6.28 runtime self-repair and all v0.6.27 diagnostic/repair fixes.",
+  "version": "0.6.30",
+  "summary": "PulseGuard v0.6.30 fixes a Windows PowerShell 5.1 generic-collection type-binding crash that could stop FIX & OPTIMIZE while building the driver-update audit, and adds a preflight regression test so this exact failure is caught before maintenance begins.",
   "sections": [
     {
-      "heading": "Updater now validates the actual GitHub release before showing Update Found",
-      "detail": "When latest.json advertises a newer version, PulseGuard now verifies that the matching GitHub release tag and exact ZIP asset are currently published before displaying an available-update state or downloading anything."
+      "heading": "FIX & OPTIMIZE driver-audit crash fixed",
+      "detail": "The driver-update audit no longer passes a generic List[object] through Windows PowerShell 5.1 array-subexpression counting. The code now counts ICollection/IEnumerable values safely and resolves UpdatedCount independently, preventing the System.ArgumentException: Argument types do not match failure seen while exporting the maintenance report."
     },
     {
-      "heading": "Deleted/rolled-back releases are ignored safely",
-      "detail": "If latest.json still references a release that has been deleted, has no matching ZIP asset, or disagrees with the published asset size/URL, PulseGuard treats that manifest as orphaned/inconsistent, stays on the installed version, and does not show a false installable update."
+      "heading": "Regression test added to safety preflight",
+      "detail": "Preflight now constructs and counts a real generic List[object] and runs a mock driver-update audit. If Windows PowerShell cannot safely process that exact data shape, FIX & OPTIMIZE is blocked before any maintenance action starts instead of failing later in the workflow."
     },
     {
-      "heading": "Manifest version, tag and asset name must agree",
-      "detail": "The package URL must now exactly match the manifest version using releases/download/vX.Y.Z/PulseGuard_PC_vX.Y.Z.zip. A manifest cannot advertise one version while pointing at a different tag or asset name."
+      "heading": "Driver audit fallback hardened",
+      "detail": "When a driver engine result omits or returns an unusable UpdatedCount value, PulseGuard now falls back to the number of verified collected update rows without unsafe nested expression evaluation. Driver audit items are converted to a plain object array before report serialization."
     },
     {
-      "heading": "Release validation has a safe network fallback",
-      "detail": "PulseGuard first checks the GitHub release API. If that validation path is temporarily unavailable, it falls back to a direct HEAD check of the exact release asset without installing or modifying program files."
-    },
-    {
-      "heading": "Incomplete-install recovery retained",
-      "detail": "All v0.6.28 protections remain: missing Data/Logs/Reports/Backups folders are recreated, critical missing runtime/config files can be restored from protected bundled recovery copies, and incomplete releases are rejected before installation."
-    },
-    {
-      "heading": "Repair and diagnostics retained",
-      "detail": "All v0.6.27 fixes remain included, including forced SFC repair when corruption is proven, PCIe WHEA Event 17 diagnostics/history handling, unattended restart-aware WinGet, protected system PATH handling, Deep Clean reporting, exact driver-update auditing, and guarded sppsvc repair behavior."
+      "heading": "All recent repair and updater fixes retained",
+      "detail": "v0.6.30 retains the v0.6.29 GitHub release validation, v0.6.28 incomplete-install recovery, v0.6.27 SFC/WHEA/WinGet/driver-audit fixes, and the guarded sppsvc repair lane from v0.6.26."
     }
   ]
 }
