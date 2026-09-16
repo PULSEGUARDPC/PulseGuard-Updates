@@ -1,51 +1,47 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.32",
-  "summary": "PulseGuard v0.6.32 fixes the Full Health Scan 99% finalization stall while retaining the v0.6.31 evidence-first repair and automatic-update compatibility work.",
+  "version": "0.6.33",
+  "summary": "PulseGuard v0.6.33 is a correctness and customer-experience release that fixes VSS false positives, Windows Update result serialization, post-servicing integrity verification/repair, component-store maintenance truth and cooldown behavior, per-application WinGet verification, ASUS OEM driver routing, application executable discovery, and Optimize-page resizing/scan-cancel behavior.",
   "sections": [
     {
-      "heading": "Full Health Scan no longer stalls at 99%",
-      "detail": "The background diagnostic worker now finishes the complete scan without trying to JSON-export raw provider/CIM objects. It returns transport-normalized scan data to the main PulseGuard process first, then the consolidated report is generated once from those safe plain objects. The dashboard also shows explicit finalization/transport status instead of sitting indefinitely on “Finalizing dashboard and report…”."
+      "heading": "VSS writer truth is fixed",
+      "detail": "PulseGuard now parses each VSS writer by name, state and Last error. Stable + No error is healthy. Waiting for completion + No error is treated as transient and briefly rechecked instead of being counted as a failed writer. Only genuine problem states/errors create a VSS warning; no shadow copies are deleted."
     },
     {
-      "heading": "Automatic-update bridge compatibility retained",
-      "detail": "The maintenance/recovery logic is integrated into the already-approved main optimizer payload instead of introducing new runtime filenames that the installed older strict-allowlist PulseGuard builds updater rejects. The release therefore fits the v0.6.30 strict file allowlist, while the included updater recognizes the maintenance-engine path for a future controlled split. No manual file copying is required."
+      "heading": "Windows Update result handling is serialization-safe",
+      "detail": "The elevated Microsoft Update payload no longer collides with PowerShell's automatic $Error variable. Result rows are converted to plain serialization-safe values, JSON write failures fail closed, UNKNOWN/REVIEW states are warnings rather than OK, and per-update ResultCode/HRESULT evidence remains available for verification."
     },
     {
-      "heading": "Windows integrity and the repair commands are now fully staged",
-      "detail": "Full Health records DISM /CheckHealth, DISM /ScanHealth and SFC /verifyonly evidence, uses Repair-WindowsImage only as a structured fallback when DISM console text cannot be classified, and records current-session CBS [SR] corroboration. FIX & OPTIMIZE runs DISM /RestoreHealth and SFC /scannow in separate visible elevated windows only for positively repairable corruption, then independently repeats the deep checks before claiming VERIFIED_FIXED. Non-repairable or incomplete diagnostics become REVIEW instead of blind repair, and restart-required servicing becomes REBOOT_REQUIRED until a post-restart deep scan verifies clean."
+      "heading": "Late Windows integrity gate after servicing",
+      "detail": "After component-store, Windows Update and driver servicing changes, PulseGuard performs a deep DISM/SFC integrity recheck before final verification. Newly exposed repairable corruption routes through visible DISM /RestoreHealth and SFC /scannow, then independent CheckHealth/ScanHealth/verifyonly verification before VERIFIED_FIXED can be claimed."
     },
     {
-      "heading": "Filesystem repair is evidence-gated",
-      "detail": "Full Health uses the dirty bit, volume evidence and CHKDSK /scan. CHKDSK /f runs only when that evidence or an NTFS corruption event justifies it. If the active Windows volume schedules the repair for restart, PulseGuard reports REBOOT_REQUIRED and waits for a later CHKDSK /scan before claiming success."
+      "heading": "CBS evidence no longer looks like a corruption count",
+      "detail": "Current-session CBS [SR] rows are separated into total session records and explicit fault/repair records. Routine Verify/transaction entries remain supporting evidence and are not presented as hundreds of corrupt files."
     },
     {
-      "heading": "Targeted DNS repair instead of blind network reset",
-      "detail": "PulseGuard compares direct-IP TCP connectivity with DNS resolution. ipconfig /flushdns is offered automatically only when direct-IP connectivity works while DNS resolution fails, and DNS is re-tested afterward."
+      "heading": "Component-store cleanup reports measured improvement and avoids immediate repeats",
+      "detail": "AnalyzeComponentStore now captures actual size, cache/temp size, reclaimable package count and last-cleanup time. A successful cleanup can report IMPROVED when packages/bytes were measurably reclaimed even if Windows still recommends more. A recent successful cleanup with no growth is deferred for seven days so customers are not immediately forced through another potentially very long servicing pass. /ResetBase remains prohibited."
     },
     {
-      "heading": "Boot repair commands are recovery-only capabilities",
-      "detail": "bootrec /fixmbr, bootrec /fixboot, bootrec /rebuildbcd and BCDBoot are mapped under Recovery / Boot but are never executed blindly during an online FIX & OPTIMIZE run. PulseGuard inspects WinRE and the current BCD online and leaves boot rewriting for evidence-gated WinRE/manual escalation."
+      "heading": "WinGet updates are isolated and verified per application",
+      "detail": "PulseGuard inventories known-version upgrades, processes each exact package independently so one third-party installer cannot block the rest, then performs a fresh upgrade inventory plus an exact installed-version check before counting an application as updated. Failed/still-offered and unverified outcomes remain REVIEW/WARNING; packages with unknown installed versions are never blindly included."
     },
     {
-      "heading": "Windows Update failure recovery is non-destructive",
-      "detail": "Software/security updates retain per-update ResultCode/HRESULT and SucceededWithErrors is a warning. On a real failure PulseGuard captures Windows Update diagnostics, verifies servicing health, preserves DataStore, Download and catroot2 as timestamped .bak folders, restarts services, verifies the Microsoft Update API, retries once, and rechecks. It does not delete the saved cache or reset Windows Update service ACLs."
+      "heading": "ASUS OEM driver discovery uses exact board rules first",
+      "detail": "The Driver Engine now consumes the trusted exact motherboard support URL from PulseGuard vendor rules before fallback discovery, rejects ASUS redirects containing undefined route segments, and keeps automatic installs limited to hardware-ID matched, signed, non-downgrade packages. The Driver Engine is v0.2.4."
     },
     {
-      "heading": "Component store and storage maintenance are independently verified",
-      "detail": "DISM /StartComponentCleanup runs only when /AnalyzeComponentStore recommends it and is followed by another analysis. Storage optimization uses Windows defrag /O so Windows selects media-appropriate handling; any partial volume failure remains REVIEW."
+      "heading": "Application integrity resolves more real executables",
+      "detail": "Installed-application executable discovery now adds App Paths and strongly matched Start Menu shortcut targets to DisplayIcon/InstallLocation evidence. Apps that still cannot be proven remain UNVERIFIABLE rather than being falsely called healthy or corrupted."
     },
     {
-      "heading": "Display and source evidence expanded",
-      "detail": "GPU inventory now merges Win32_VideoController, present PnP Display devices and signed display-driver evidence. Findings also consume filesystem, WinRE/BCD, VSS, activation, WinGet source, DNS and Windows Update failure-history evidence without creating one tab per command."
+      "heading": "Optimize screen resizing and close behavior improved",
+      "detail": "The Optimize workspace now fills the available page, recalculates the Changes Recorded and live-detail panel bounds on resize/maximize, keeps text/status controls inside their cards and lets the live details box use the remaining vertical space. A diagnostic-only Full Health worker can also be cancelled when the user closes PulseGuard; an active FIX + OPTIMIZE repair workflow still blocks unsafe closure."
     },
     {
-      "heading": "Visible sequential maintenance and stronger reports",
-      "detail": "Repair/update actions that need elevation run one at a time in visible Administrator CMD/PowerShell windows, capture their results, remain visible for five seconds after completion, and then continue. Reports retain the merged display inventory, maintenance results, Windows Update diagnostics/cache preservation/retry evidence, and exact source-stage warnings."
-    },
-    {
-      "heading": "WinGet reliability fixes retained",
-      "detail": "The WinGet executable-resolution fix remains included: PulseGuard resolves winget.exe as an Application command, passes the absolute executable path into the elevated helper, captures invocation failures, accepts agreements, records output, and detects restart-required results."
+      "heading": "Existing evidence-gated maintenance remains intact",
+      "detail": "Visible elevated repair/update commands still run one at a time and remain visible for five seconds after completion. CHKDSK /f, DNS repair, component maintenance, update recovery, storage optimization and other mutation paths remain evidence-gated and independently verified; destructive DiskPart cleanup, shadow-copy deletion, /ResetBase, blind boot rewrites and broad ACL resets remain outside automatic maintenance."
     }
   ]
 }
