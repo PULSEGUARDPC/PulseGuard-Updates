@@ -1,47 +1,35 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.33",
-  "summary": "PulseGuard v0.6.33 is a correctness and customer-experience release that fixes VSS false positives, Windows Update result serialization, post-servicing integrity verification/repair, component-store maintenance truth and cooldown behavior, per-application WinGet verification, ASUS OEM driver routing, application executable discovery, and Optimize-page resizing/scan-cancel behavior.",
+  "version": "0.6.34",
+  "summary": "PulseGuard v0.6.34 is a focused reliability and UI-polish update based on the v0.6.33 real-machine test. It fixes WinGet table parsing and PowerShell 5.1 collection handling, keeps final report serialization off the WinForms UI thread, resolves repaired Windows Repair warnings correctly, cleans native console control-code artifacts, and removes the remaining Optimize-page bottom clipping.",
   "sections": [
     {
-      "heading": "VSS writer truth is fixed",
-      "detail": "PulseGuard now parses each VSS writer by name, state and Last error. Stable + No error is healthy. Waiting for completion + No error is treated as transient and briefly rechecked instead of being counted as a failed writer. Only genuine problem states/errors create a VSS warning; no shadow copies are deleted."
+      "heading": "WinGet known-version upgrades are parsed reliably",
+      "detail": "PulseGuard now derives WinGet table columns from WinGet's own header instead of depending on a fragile spacing regex, with a package-ID fallback for future formatting changes. Known upgrades such as Webex and iCUE are no longer misreported as zero candidates when the table visibly lists them."
     },
     {
-      "heading": "Windows Update result handling is serialization-safe",
-      "detail": "The elevated Microsoft Update payload no longer collides with PowerShell's automatic $Error variable. Result rows are converted to plain serialization-safe values, JSON write failures fail closed, UNKNOWN/REVIEW states are warnings rather than OK, and per-update ResultCode/HRESULT evidence remains available for verification."
+      "heading": "WinGet verification is PowerShell 5.1 safe",
+      "detail": "Per-package results use concrete arrays during post-update verification instead of coercing a generic List[object] through @(...), eliminating the Windows PowerShell 5.1 'Argument types do not match' failure. Known-version packages are still attempted independently and re-inventoried after each update pass; unknown-version packages remain review-only."
     },
     {
-      "heading": "Late Windows integrity gate after servicing",
-      "detail": "After component-store, Windows Update and driver servicing changes, PulseGuard performs a deep DISM/SFC integrity recheck before final verification. Newly exposed repairable corruption routes through visible DISM /RestoreHealth and SFC /scannow, then independent CheckHealth/ScanHealth/verifyonly verification before VERIFIED_FIXED can be claimed."
+      "heading": "Final report generation no longer freezes the interface",
+      "detail": "FIX + OPTIMIZE no longer performs deep consolidated JSON serialization on the WinForms UI thread after the final CPU measurement. The automatic Full Health worker receives the completed optimization context, creates the fresh post-fix scan, writes the consolidated report in the hidden worker process, and returns only the completed report path/results to the UI."
     },
     {
-      "heading": "CBS evidence no longer looks like a corruption count",
-      "detail": "Current-session CBS [SR] rows are separated into total session records and explicit fault/repair records. Routine Verify/transaction entries remain supporting evidence and are not presented as hundreds of corrupt files."
+      "heading": "Windows Repair status reconciles after successful verification",
+      "detail": "An early Windows Repair warning no longer leaves the Optimize process group yellow after a later DISM/SFC repair and independent integrity verification proves the current state healthy. Component-store IMPROVED/VERIFIED outcomes are likewise treated as resolved advisory maintenance rather than a permanent warning."
     },
     {
-      "heading": "Component-store cleanup reports measured improvement and avoids immediate repeats",
-      "detail": "AnalyzeComponentStore now captures actual size, cache/temp size, reclaimable package count and last-cleanup time. A successful cleanup can report IMPROVED when packages/bytes were measurably reclaimed even if Windows still recommends more. A recent successful cleanup with no growth is deferred for seven days so customers are not immediately forced through another potentially very long servicing pass. /ResetBase remains prohibited."
+      "heading": "Visible maintenance console output is cleaner",
+      "detail": "PulseGuard strips presentation-only ANSI/CSI erase-line sequences from native maintenance output before displaying/logging it, preventing stray fragments such as '[2' from appearing around SFC/DISM results while preserving the actual diagnostic text and exit result."
     },
     {
-      "heading": "WinGet updates are isolated and verified per application",
-      "detail": "PulseGuard inventories known-version upgrades, processes each exact package independently so one third-party installer cannot block the rest, then performs a fresh upgrade inventory plus an exact installed-version check before counting an application as updated. Failed/still-offered and unverified outcomes remain REVIEW/WARNING; packages with unknown installed versions are never blindly included."
+      "heading": "Optimize page bottom clipping is corrected",
+      "detail": "The Optimize workspace now uses deterministic dock sizing for the bottom progress/result bar, disables the AutoScroll interaction that could clip a docked footer, and manually sizes the live-details card above the footer without a competing Bottom anchor. This keeps the live progress text and cleanup details fully inside the page when maximized and under DPI scaling."
     },
     {
-      "heading": "ASUS OEM driver discovery uses exact board rules first",
-      "detail": "The Driver Engine now consumes the trusted exact motherboard support URL from PulseGuard vendor rules before fallback discovery, rejects ASUS redirects containing undefined route segments, and keeps automatic installs limited to hardware-ID matched, signed, non-downgrade packages. The Driver Engine is v0.2.4."
-    },
-    {
-      "heading": "Application integrity resolves more real executables",
-      "detail": "Installed-application executable discovery now adds App Paths and strongly matched Start Menu shortcut targets to DisplayIcon/InstallLocation evidence. Apps that still cannot be proven remain UNVERIFIABLE rather than being falsely called healthy or corrupted."
-    },
-    {
-      "heading": "Optimize screen resizing and close behavior improved",
-      "detail": "The Optimize workspace now fills the available page, recalculates the Changes Recorded and live-detail panel bounds on resize/maximize, keeps text/status controls inside their cards and lets the live details box use the remaining vertical space. A diagnostic-only Full Health worker can also be cancelled when the user closes PulseGuard; an active FIX + OPTIMIZE repair workflow still blocks unsafe closure."
-    },
-    {
-      "heading": "Existing evidence-gated maintenance remains intact",
-      "detail": "Visible elevated repair/update commands still run one at a time and remain visible for five seconds after completion. CHKDSK /f, DNS repair, component maintenance, update recovery, storage optimization and other mutation paths remain evidence-gated and independently verified; destructive DiskPart cleanup, shadow-copy deletion, /ResetBase, blind boot rewrites and broad ACL resets remain outside automatic maintenance."
+      "heading": "Storage optimization behavior is unchanged and media-aware",
+      "detail": "PulseGuard continues to use Windows defrag.exe /O. Windows chooses the correct operation for each volume: SSD/NVMe volumes receive retrim/optimization rather than a traditional hard-drive defragmentation pass. Partial volume failures remain REVIEW rather than success."
     }
   ]
 }
