@@ -1,35 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.34",
-  "summary": "PulseGuard v0.6.34 is a focused reliability and UI-polish update based on the v0.6.33 real-machine test. It fixes WinGet table parsing and PowerShell 5.1 collection handling, keeps final report serialization off the WinForms UI thread, resolves repaired Windows Repair warnings correctly, cleans native console control-code artifacts, and removes the remaining Optimize-page bottom clipping.",
+  "version": "0.6.35",
+  "summary": "PulseGuard v0.6.35 completes the v0.6.34 real-machine cleanup pass: it fixes the remaining FIX + OPTIMIZE footer clipping and corrects WinGet per-package truth reporting, retry behavior and final post-fix finding reconciliation.",
   "sections": [
     {
-      "heading": "WinGet known-version upgrades are parsed reliably",
-      "detail": "PulseGuard now derives WinGet table columns from WinGet's own header instead of depending on a fragile spacing regex, with a package-ID fallback for future formatting changes. Known upgrades such as Webex and iCUE are no longer misreported as zero candidates when the table visibly lists them."
+      "heading": "FIX + OPTIMIZE live footer clipping corrected",
+      "detail": "The live progress footer keeps DPI-safe vertical headroom and lays out its icon, progress title, current task and explanatory line against the actual runtime ClientSize on every resize/maximize event."
     },
     {
-      "heading": "WinGet verification is PowerShell 5.1 safe",
-      "detail": "Per-package results use concrete arrays during post-update verification instead of coercing a generic List[object] through @(...), eliminating the Windows PowerShell 5.1 'Argument types do not match' failure. Known-version packages are still attempted independently and re-inventoried after each update pass; unknown-version packages remain review-only."
+      "heading": "WinGet package outcomes are now separated correctly",
+      "detail": "No-applicable upgrades are classified NOT_APPLICABLE instead of failed. Successful installers receive exact installed-version verification with a short settle/retry window; unresolved successful installs become verification-pending review rather than false failure."
     },
     {
-      "heading": "Final report generation no longer freezes the interface",
-      "detail": "FIX + OPTIMIZE no longer performs deep consolidated JSON serialization on the WinForms UI thread after the final CPU measurement. The automatic Full Health worker receives the completed optimization context, creates the fresh post-fix scan, writes the consolidated report in the hidden worker process, and returns only the completed report path/results to the UI."
+      "heading": "Repeated vendor-installer failures are not hammered every run",
+      "detail": "A package that fails for the same offered version is held from automatic FIX + OPTIMIZE retries for 24 hours and remains visible for review. A newly offered package version clears the hold automatically."
     },
     {
-      "heading": "Windows Repair status reconciles after successful verification",
-      "detail": "An early Windows Repair warning no longer leaves the Optimize process group yellow after a later DISM/SFC repair and independent integrity verification proves the current state healthy. Component-store IMPROVED/VERIFIED outcomes are likewise treated as resolved advisory maintenance rather than a permanent warning."
+      "heading": "Unknown-version package review counts are consistent",
+      "detail": "WinGet packages whose installed version cannot be determined remain review-only and are included in the report/counters instead of disappearing from the review total."
     },
     {
-      "heading": "Visible maintenance console output is cleaner",
-      "detail": "PulseGuard strips presentation-only ANSI/CSI erase-line sequences from native maintenance output before displaying/logging it, preventing stray fragments such as '[2' from appearing around SFC/DISM results while preserving the actual diagnostic text and exit result."
+      "heading": "Late installer crashes are included before final reconciliation",
+      "detail": "PulseGuard refreshes Stability/Application Error evidence before Step 25 reconciles findings, preventing an active installer crash from appearing only in the later Full Health report after Step 25 incorrectly claimed zero active findings."
     },
     {
-      "heading": "Optimize page bottom clipping is corrected",
-      "detail": "The Optimize workspace now uses deterministic dock sizing for the bottom progress/result bar, disables the AutoScroll interaction that could clip a docked footer, and manually sizes the live-details card above the footer without a competing Bottom anchor. This keeps the live progress text and cleanup details fully inside the page when maximized and under DPI scaling."
-    },
-    {
-      "heading": "Storage optimization behavior is unchanged and media-aware",
-      "detail": "PulseGuard continues to use Windows defrag.exe /O. Windows chooses the correct operation for each volume: SSD/NVMe volumes receive retrim/optimization rather than a traditional hard-drive defragmentation pass. Partial volume failures remain REVIEW rather than success."
+      "heading": "v0.6.34 reliability repairs remain intact",
+      "detail": "Windows integrity repair/verification, VSS writer truth logic, Windows Update serialization and verification, component-store cooldown, background final-report generation, console cleanup, trusted-driver handling and media-aware SSD retrim remain in place."
     }
   ]
 }
