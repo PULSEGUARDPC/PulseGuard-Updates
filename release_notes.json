@@ -1,11 +1,15 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.31",
-  "summary": "PulseGuard v0.6.31 fixes the automatic-update bridge from v0.6.30 and includes the complete evidence-first scan, repair and verification improvements.",
+  "version": "0.6.32",
+  "summary": "PulseGuard v0.6.32 fixes the Full Health Scan 99% finalization stall while retaining the v0.6.31 evidence-first repair and automatic-update compatibility work.",
   "sections": [
     {
-      "heading": "Automatic update from v0.6.30 is bridge-safe again",
-      "detail": "The maintenance/recovery logic is integrated into the already-approved main optimizer payload instead of introducing new runtime filenames that the installed v0.6.30 updater rejects. The release therefore fits the v0.6.30 strict file allowlist, while the included updater recognizes the maintenance-engine path for a future controlled split. No manual file copying is required."
+      "heading": "Full Health Scan no longer stalls at 99%",
+      "detail": "The background diagnostic worker now finishes the complete scan without trying to JSON-export raw provider/CIM objects. It returns transport-normalized scan data to the main PulseGuard process first, then the consolidated report is generated once from those safe plain objects. The dashboard also shows explicit finalization/transport status instead of sitting indefinitely on “Finalizing dashboard and report…”."
+    },
+    {
+      "heading": "Automatic-update bridge compatibility retained",
+      "detail": "The maintenance/recovery logic is integrated into the already-approved main optimizer payload instead of introducing new runtime filenames that the installed older strict-allowlist PulseGuard builds updater rejects. The release therefore fits the v0.6.30 strict file allowlist, while the included updater recognizes the maintenance-engine path for a future controlled split. No manual file copying is required."
     },
     {
       "heading": "Windows integrity and the repair commands are now fully staged",
