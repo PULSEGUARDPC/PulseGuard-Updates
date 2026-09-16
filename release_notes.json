@@ -1,31 +1,39 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.35",
-  "summary": "PulseGuard v0.6.35 completes the v0.6.34 real-machine cleanup pass: it fixes the remaining FIX + OPTIMIZE footer clipping and corrects WinGet per-package truth reporting, retry behavior and final post-fix finding reconciliation.",
+  "version": "0.6.36",
+  "summary": "PulseGuard v0.6.36 is a cross-machine correctness pass driven by v0.6.35 testing: it removes false Store/WindowsApps corruption findings, strengthens executable ownership, verifies side-by-side .NET updates correctly, improves OEM/startup classification, and cleans customer-facing maintenance truth labels.",
   "sections": [
     {
-      "heading": "FIX + OPTIMIZE live footer clipping corrected",
-      "detail": "The live progress footer keeps DPI-safe vertical headroom and lays out its icon, progress title, current task and explanatory line against the actual runtime ClientSize on every resize/maximize event."
+      "heading": "Protected Store/WindowsApps targets no longer become false corruption",
+      "detail": "A protected WindowsApps or Store launch alias that Windows refuses to open is classified PROTECTED/UNVERIFIABLE unless independent corruption evidence exists. Access denial alone can no longer subtract application-integrity health points."
     },
     {
-      "heading": "WinGet package outcomes are now separated correctly",
-      "detail": "No-applicable upgrades are classified NOT_APPLICABLE instead of failed. Successful installers receive exact installed-version verification with a short settle/retry window; unresolved successful installs become verification-pending review rather than false failure."
+      "heading": "Installed-app executable ownership is stricter",
+      "detail": "App Paths now require distinctive app-name tokens and strong ownership evidence before an executable is hashed or structure-tested. Generic words can no longer attach unrelated executables such as GetHelp.exe to another installed program."
     },
     {
-      "heading": "Repeated vendor-installer failures are not hammered every run",
-      "detail": "A package that fails for the same offered version is held from automatic FIX + OPTIMIZE retries for 24 hours and remains visible for review. A newly offered package version clears the hold automatically."
+      "heading": ".NET side-by-side updates receive architecture-aware verification",
+      "detail": "Microsoft .NET, ASP.NET Core and Windows Desktop Runtime updates are verified by target shared-runtime evidence plus an exact WinGet recheck. Older side-by-side runtime versions may remain installed without causing a false verification-pending result, and the detected installer architecture is retained as verification evidence."
     },
     {
-      "heading": "Unknown-version package review counts are consistent",
-      "detail": "WinGet packages whose installed version cannot be determined remain review-only and are included in the report/counters instead of disappearing from the review total."
+      "heading": "Temporary WinGet/vendor installer crashes no longer reduce general PC health",
+      "detail": "Crash events from temporary WinGet/PulseGuard installer paths remain in diagnostic history and application-update review, but are excluded from the active repeated-app instability set and health-score penalty."
     },
     {
-      "heading": "Late installer crashes are included before final reconciliation",
-      "detail": "PulseGuard refreshes Stability/Application Error evidence before Step 25 reconciles findings, preventing an active installer crash from appearing only in the later Full Health report after Step 25 incorrectly claimed zero active findings."
+      "heading": "ASUS support routing is consistent on uncurated boards",
+      "detail": "When an ASUS board lacks a curated static rule, PulseGuard still exposes the exact official ASUS board support route and explicitly labels automatic OEM archive discovery as incomplete rather than implying all OEM drivers were proven current."
     },
     {
-      "heading": "v0.6.34 reliability repairs remain intact",
-      "detail": "Windows integrity repair/verification, VSS writer truth logic, Windows Update serialization and verification, component-store cooldown, background final-report generation, console cleanup, trusted-driver handling and media-aware SSD retrim remain in place."
+      "heading": "More common startup entries are classified",
+      "detail": "Overwolf, Opera/Opera Air/Opera GX user auto-start, U.GG, LG OnScreen Control and Send to OneNote now have researched startup classifications while the existing keep-first safety policy remains intact."
+    },
+    {
+      "heading": "Changes Recorded uses customer-facing completion language",
+      "detail": "Successful Deep Clean and Privacy maintenance display Completed, successful media-aware volume optimization displays Verified, and application-update batches display Verified or Review according to package-level evidence instead of generic Unverified wording."
+    },
+    {
+      "heading": "Skipped healthy repair lanes finish as completed",
+      "detail": "A repair lane that intentionally returns SKIPPED because the system is already healthy, no update is needed, or a maintenance cooldown is active no longer leaves the grouped Optimize status looking in-progress. Reboot-required and unresolved warning states remain visible."
     }
   ]
 }
