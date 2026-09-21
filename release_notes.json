@@ -1,39 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.36",
-  "summary": "PulseGuard v0.6.36 is a cross-machine correctness pass driven by v0.6.35 testing: it removes false Store/WindowsApps corruption findings, strengthens executable ownership, verifies side-by-side .NET updates correctly, improves OEM/startup classification, and cleans customer-facing maintenance truth labels.",
+  "version": "0.6.38",
+  "summary": "PulseGuard v0.6.38 completes the updater/architecture work from v0.6.37 by extracting the maintenance and recovery subsystem from the monolithic UI script into a dedicated, self-healing runtime engine without changing its public function contracts or repair policy.",
   "sections": [
     {
-      "heading": "Protected Store/WindowsApps targets no longer become false corruption",
-      "detail": "A protected WindowsApps or Store launch alias that Windows refuses to open is classified PROTECTED/UNVERIFIABLE unless independent corruption evidence exists. Access denial alone can no longer subtract application-integrity health points."
+      "heading": "Maintenance/recovery engine is external again",
+      "detail": "The Get/Invoke-PGM maintenance, Windows Update, component-store, filesystem, DNS, VSS, activation, recovery-readiness, storage-optimization and source-coverage functions now live in Runtime\\PulseGuard_MaintenanceEngine.ps1 instead of being inlined into Our_PC_Optimizer.ps1. Existing function names and callers are unchanged."
     },
     {
-      "heading": "Installed-app executable ownership is stricter",
-      "detail": "App Paths now require distinctive app-name tokens and strong ownership evidence before an executable is hashed or structure-tested. Generic words can no longer attach unrelated executables such as GetHelp.exe to another installed program."
+      "heading": "Extraction remains compatible with existing updater generations",
+      "detail": "The v0.6.37 shape-based updater accepts the dedicated PulseGuard_*Engine.ps1 module, while the prior v0.6.36 exact allowlist already included PulseGuard_MaintenanceEngine.ps1 and its Recovery counterpart."
     },
     {
-      "heading": ".NET side-by-side updates receive architecture-aware verification",
-      "detail": "Microsoft .NET, ASP.NET Core and Windows Desktop Runtime updates are verified by target shared-runtime evidence plus an exact WinGet recheck. Older side-by-side runtime versions may remain installed without causing a false verification-pending result, and the detected installer architecture is retained as verification evidence."
+      "heading": "The engine participates in runtime self-heal",
+      "detail": "PulseGuard now ships a Recovery copy of the maintenance engine, restores the runtime copy if it is genuinely missing, verifies both copies in the supported runtime layout, and removes obsolete root-level copies during migration cleanup."
     },
     {
-      "heading": "Temporary WinGet/vendor installer crashes no longer reduce general PC health",
-      "detail": "Crash events from temporary WinGet/PulseGuard installer paths remain in diagnostic history and application-update review, but are excluded from the active repeated-app instability set and health-score penalty."
+      "heading": "Release validation now requires the extracted engine",
+      "detail": "The v0.6.38 updater treats both Runtime\\PulseGuard_MaintenanceEngine.ps1 and its Recovery copy as required payload files, preventing a future release from staging an incomplete maintenance subsystem."
     },
     {
-      "heading": "ASUS support routing is consistent on uncurated boards",
-      "detail": "When an ASUS board lacks a curated static rule, PulseGuard still exposes the exact official ASUS board support route and explicitly labels automatic OEM archive discovery as incomplete rather than implying all OEM drivers were proven current."
-    },
-    {
-      "heading": "More common startup entries are classified",
-      "detail": "Overwolf, Opera/Opera Air/Opera GX user auto-start, U.GG, LG OnScreen Control and Send to OneNote now have researched startup classifications while the existing keep-first safety policy remains intact."
-    },
-    {
-      "heading": "Changes Recorded uses customer-facing completion language",
-      "detail": "Successful Deep Clean and Privacy maintenance display Completed, successful media-aware volume optimization displays Verified, and application-update batches display Verified or Review according to package-level evidence instead of generic Unverified wording."
-    },
-    {
-      "heading": "Skipped healthy repair lanes finish as completed",
-      "detail": "A repair lane that intentionally returns SKIPPED because the system is already healthy, no update is needed, or a maintenance cooldown is active no longer leaves the grouped Optimize status looking in-progress. Reboot-required and unresolved warning states remain visible."
+      "heading": "v0.6.37 correctness and rollback fixes remain included",
+      "detail": "The GIGABYTE detection, ownership-path, compatibility-layer, grid sorting, startup-entry isolation, Privacy Sweep, rollback batching, updater allowlist and targeted exception-logging fixes from v0.6.37 remain in this build."
     }
   ]
 }
