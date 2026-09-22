@@ -41,11 +41,16 @@ jobs:
           gh release download "$TAG" --repo "${{ github.repository }}" --pattern "$ASSET_NAME" --dir "$ASSET_DIR"
           test -f "$ASSET_DIR/$ASSET_NAME" || { echo "::error::Expected release asset $ASSET_NAME was not downloaded"; exit 1; }
 
+      - name: Install signing dependency
+        run: python -m pip install --disable-pip-version-check "cryptography>=42"
+
       - name: Run release automation tests
         run: python -m unittest discover -s tests -v
 
       - name: Generate validated updater manifests
         shell: bash
+        env:
+          PULSEGUARD_SIGNING_KEY: ${{ secrets.PULSEGUARD_SIGNING_KEY }}
         run: |
           set -euo pipefail
           python .github/scripts/publish_pulseguard_release.py \
