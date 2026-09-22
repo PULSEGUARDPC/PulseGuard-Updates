@@ -1,55 +1,31 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.39",
-  "summary": "PulseGuard v0.6.39 fixes stability scoring/watermark logic, WinGet source validation, application executable ownership, CPU accounting, startup safety, cleanup policy, Game Ready explanations, report serialization/size, RAM labels, and repeated NotApplicable update noise.",
+  "version": "0.6.40",
+  "summary": "PulseGuard v0.6.40 is a safety release: elevated helper scripts no longer run from user-writable folders, updates ask before installing and support release signing, Fix & Optimize no longer cleans the registry, wipes Quick Access pins or closes your apps, startup changes use the Task Manager method and can be undone run by run, and restore points, WinGet retry holds and report arrays now report the truth.",
   "sections": [
     {
-      "heading": "Crash history can no longer be self-resolved",
-      "detail": "Event-backed BSOD, WHEA, shutdown, GPU, storage and repeated-crash history can no longer be cleared by generic maintenance, a post-scan, or unrelated driver/vendor activity. Only an explicitly mapped targeted repair may start a verification window; simply finding sppsvc already running is verification only and does not count as a repair. Existing pre-v0.6.39 generic watermarks are ignored, and repaired event history remains score-active until a 168-hour clean window passes without recurrence."
+      "heading": "Elevated helpers moved to a protected folder",
+      "detail": "Scripts, specs and installers that PulseGuard runs as administrator now live in C:\\ProgramData\\PulseGuard PC Elevated, which only Administrators and SYSTEM can change. The Software Protection SYSTEM-task fallback and its Windows permission edits were removed. Apps closed by Game Ready are relaunched unelevated. Daily scheduled scans are refused (and removed) while PulseGuard is installed in a folder standard programs can modify."
     },
     {
-      "heading": "Health score now reflects recent instability",
-      "detail": "Recent BSODs remain active during the clean-window period, and recent unexpected-shutdown/Kernel-Power history now also carries a health-score penalty. A maintenance run cannot restore 100/100 while recent crash evidence is still active."
+      "heading": "Updates ask first and can be signed",
+      "detail": "The updater now asks before installing, stages downloads in the protected folder, and verifies an RSA release signature once a public key is pinned in PulseGuard_Updater.ps1."
     },
     {
-      "heading": "WinGet source health check corrected",
-      "detail": "PulseGuard now runs `winget source list` without the unsupported `--accept-source-agreements` flag and treats help text, unrecognized-argument output, or malformed source-list output as unhealthy even if WinGet returns exit code 0."
+      "heading": "Fix & Optimize no longer removes your data",
+      "detail": "Registry cleaning is review-only, the Privacy Sweep is manual and keeps Quick Access pins and Jump Lists, PATH is never edited automatically, Deep Clean keeps browser/thumbnail caches and resumable downloads, and background-app closing is manual with Spotify, Teams, Creative Cloud and Epic removed from the close list."
     },
     {
-      "heading": "Installed-app executable ownership hardened",
-      "detail": "A resolved executable is accepted as application-integrity evidence only when it is contained by the registered InstallLocation or, when outside it, has a valid Authenticode signature whose signer/company evidence matches the registered publisher. Unrelated executables such as cmd.exe or WindowsPackageManagerServer.exe can no longer make another application appear HEALTHY."
+      "heading": "Startup changes and Restore fixed",
+      "detail": "Run-key startup items are disabled with Task Manager's StartupApproved flag so they can be re-enabled from Task Manager. Restore now steps back one run at a time and restores registry values with their original type."
     },
     {
-      "heading": "CPU accounting uses one sample",
-      "detail": "Total background CPU and required/optional/gaming/unknown/other components are now calculated from the same per-process sample, with the independent performance-counter average retained separately for context."
+      "heading": "Truthful results",
+      "detail": "Restore points are verified before being reported as created, the WinGet helper defines every function it uses and fails safe on its retry-hold file, report lists stay JSON arrays, serial numbers are redacted from the report, and two calls to functions that did not exist were fixed."
     },
     {
-      "heading": "Startup optimization is safer",
-      "detail": "FIX + OPTIMIZE automatically changes only repair-like safe startup entries such as dead unowned targets. Ordinary user-installed app autostarts require an explicit Startup Manager action, and scheduled tasks tied to another Windows user SID are always protected."
-    },
-    {
-      "heading": "Deep Clean no longer removes user recovery/cache data",
-      "detail": "Deep Clean no longer empties the Recycle Bin and no longer clears the DirectX shader cache. Recycle Bin size remains visible as preview-only information."
-    },
-    {
-      "heading": "Game Ready reporting clarified",
-      "detail": "PARTIAL Game Ready decisions now explicitly separate which child processes were CLOSED and why from which were KEPT and why, removing contradictory-looking safety text."
-    },
-    {
-      "heading": "Cleaner, consistent reports",
-      "detail": "Report serialization converts DateTime/DateTimeOffset values to ISO-8601 strings, omits the duplicated InstalledApps array when Rows already contains the same application inventory, and excludes bulky raw command-output fields from the consolidated JSON while retaining summarized evidence/log paths."
-    },
-    {
-      "heading": "RAM slot labels and WinGet noise improved",
-      "detail": "RAM summary lines now include both bank and device-locator labels when available. WinGet packages previously proven NotApplicable for the exact same offered version are suppressed on later runs until the offered version changes."
-    },
-    {
-      "heading": "Workflow wording corrected",
-      "detail": "The WinGet optimization step is now named for the verified application-upgrade workflow rather than implying that merely opening Command Prompt is the task."
-    },
-    {
-      "heading": "Defender baseline visibility improved",
-      "detail": "Tamper Protection off and a never-recorded Defender full scan are now surfaced as separate informational findings. PulseGuard does not force-enable Tamper Protection or automatically launch a long full scan during routine optimization."
+      "heading": "Stability-aware advice",
+      "detail": "Several different BSOD codes now point to RAM/EXPO/CPU tuning first, memory running below its rated speed is treated as a possible stability test while crashes are active, and a BSOD is no longer counted twice through its Kernel-Power reboot."
     }
   ]
 }
