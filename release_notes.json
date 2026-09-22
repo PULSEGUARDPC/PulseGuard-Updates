@@ -1,39 +1,27 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.41",
-  "summary": "PulseGuard v0.6.41 fixes a v0.6.40 crash at the end of Fix & Optimize, treats the Windows 24-hour restore point limit as expected instead of a warning, and cleans up several result messages. It keeps all v0.6.40 safety changes.",
+  "version": "0.6.42",
+  "summary": "PulseGuard v0.6.42 turns on signed updates: from now on PulseGuard only installs releases signed with the official PulseGuard key. It also stops flagging held or not-applicable app updates as warnings, runs the SSD retrim at most once a week, and makes the report much smaller.",
   "sections": [
+    {
+      "heading": "Signed updates are now required",
+      "detail": "This version contains the official PulseGuard release public key. Every future update must carry a valid signature from that key, so a release published by anyone else (even from the official GitHub repository) is rejected before it is downloaded."
+    },
+    {
+      "heading": "Fewer false warnings",
+      "detail": "App updates on a 24-hour retry hold, repeated \"not applicable\" offers and unknown-version packages are expected outcomes and no longer turn Fix & Optimize into a warning."
+    },
+    {
+      "heading": "Faster Fix & Optimize",
+      "detail": "The SSD retrim/volume optimization runs at most once every 7 days, because Windows already does it weekly."
+    },
+    {
+      "heading": "Smaller report",
+      "detail": "Healthy devices in the driver inventory keep only their name, class, status and driver details; devices with problems keep every field."
+    },
     {
       "heading": "Fix & Optimize finishes again",
       "detail": "v0.6.40 crashed while writing the final summary because the Game Ready step no longer returns CPU before/after values. The post-fix rescan and final report now run normally."
-    },
-    {
-      "heading": "Clearer results",
-      "detail": "A restore point made earlier the same day is reported as SKIPPED (Windows allows one per 24 hours) instead of a warning, the restore-point message no longer repeats itself, Deep Clean only records a change when it actually deleted files, and suppressed WinGet packages now say why in the update window."
-    },
-    {
-      "heading": "Elevated helpers moved to a protected folder",
-      "detail": "Scripts, specs and installers that PulseGuard runs as administrator now live in C:\\ProgramData\\PulseGuard PC Elevated, which only Administrators and SYSTEM can change. The Software Protection SYSTEM-task fallback and its Windows permission edits were removed. Apps closed by Game Ready are relaunched unelevated. Daily scheduled scans are refused (and removed) while PulseGuard is installed in a folder standard programs can modify."
-    },
-    {
-      "heading": "Updates ask first and can be signed",
-      "detail": "The updater now asks before installing, stages downloads in the protected folder, and verifies an RSA release signature once a public key is pinned in PulseGuard_Updater.ps1."
-    },
-    {
-      "heading": "Fix & Optimize no longer removes your data",
-      "detail": "Registry cleaning is review-only, the Privacy Sweep is manual and keeps Quick Access pins and Jump Lists, PATH is never edited automatically, Deep Clean keeps browser/thumbnail caches and resumable downloads, and background-app closing is manual with Spotify, Teams, Creative Cloud and Epic removed from the close list."
-    },
-    {
-      "heading": "Startup changes and Restore fixed",
-      "detail": "Run-key startup items are disabled with Task Manager's StartupApproved flag so they can be re-enabled from Task Manager. Restore now steps back one run at a time and restores registry values with their original type."
-    },
-    {
-      "heading": "Truthful results",
-      "detail": "Restore points are verified before being reported as created, the WinGet helper defines every function it uses and fails safe on its retry-hold file, report lists stay JSON arrays, serial numbers are redacted from the report, and two calls to functions that did not exist were fixed."
-    },
-    {
-      "heading": "Stability-aware advice",
-      "detail": "Several different BSOD codes now point to RAM/EXPO/CPU tuning first, memory running below its rated speed is treated as a possible stability test while crashes are active, and a BSOD is no longer counted twice through its Kernel-Power reboot."
     }
   ]
 }
