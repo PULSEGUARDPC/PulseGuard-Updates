@@ -1,27 +1,55 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.38",
-  "summary": "PulseGuard v0.6.38 completes the updater/architecture work from v0.6.37 by extracting the maintenance and recovery subsystem from the monolithic UI script into a dedicated, self-healing runtime engine without changing its public function contracts or repair policy.",
+  "version": "0.6.39",
+  "summary": "PulseGuard v0.6.39 fixes stability scoring/watermark logic, WinGet source validation, application executable ownership, CPU accounting, startup safety, cleanup policy, Game Ready explanations, report serialization/size, RAM labels, and repeated NotApplicable update noise.",
   "sections": [
     {
-      "heading": "Maintenance/recovery engine is external again",
-      "detail": "The Get/Invoke-PGM maintenance, Windows Update, component-store, filesystem, DNS, VSS, activation, recovery-readiness, storage-optimization and source-coverage functions now live in Runtime\\PulseGuard_MaintenanceEngine.ps1 instead of being inlined into Our_PC_Optimizer.ps1. Existing function names and callers are unchanged."
+      "heading": "Crash history can no longer be self-resolved",
+      "detail": "Event-backed BSOD, WHEA, shutdown, GPU, storage and repeated-crash history can no longer be cleared by generic maintenance, a post-scan, or unrelated driver/vendor activity. Only an explicitly mapped targeted repair may start a verification window; simply finding sppsvc already running is verification only and does not count as a repair. Existing pre-v0.6.39 generic watermarks are ignored, and repaired event history remains score-active until a 168-hour clean window passes without recurrence."
     },
     {
-      "heading": "Extraction remains compatible with existing updater generations",
-      "detail": "The v0.6.37 shape-based updater accepts the dedicated PulseGuard_*Engine.ps1 module, while the prior v0.6.36 exact allowlist already included PulseGuard_MaintenanceEngine.ps1 and its Recovery counterpart."
+      "heading": "Health score now reflects recent instability",
+      "detail": "Recent BSODs remain active during the clean-window period, and recent unexpected-shutdown/Kernel-Power history now also carries a health-score penalty. A maintenance run cannot restore 100/100 while recent crash evidence is still active."
     },
     {
-      "heading": "The engine participates in runtime self-heal",
-      "detail": "PulseGuard now ships a Recovery copy of the maintenance engine, restores the runtime copy if it is genuinely missing, verifies both copies in the supported runtime layout, and removes obsolete root-level copies during migration cleanup."
+      "heading": "WinGet source health check corrected",
+      "detail": "PulseGuard now runs `winget source list` without the unsupported `--accept-source-agreements` flag and treats help text, unrecognized-argument output, or malformed source-list output as unhealthy even if WinGet returns exit code 0."
     },
     {
-      "heading": "Release validation now requires the extracted engine",
-      "detail": "The v0.6.38 updater treats both Runtime\\PulseGuard_MaintenanceEngine.ps1 and its Recovery copy as required payload files, preventing a future release from staging an incomplete maintenance subsystem."
+      "heading": "Installed-app executable ownership hardened",
+      "detail": "A resolved executable is accepted as application-integrity evidence only when it is contained by the registered InstallLocation or, when outside it, has a valid Authenticode signature whose signer/company evidence matches the registered publisher. Unrelated executables such as cmd.exe or WindowsPackageManagerServer.exe can no longer make another application appear HEALTHY."
     },
     {
-      "heading": "v0.6.37 correctness and rollback fixes remain included",
-      "detail": "The GIGABYTE detection, ownership-path, compatibility-layer, grid sorting, startup-entry isolation, Privacy Sweep, rollback batching, updater allowlist and targeted exception-logging fixes from v0.6.37 remain in this build."
+      "heading": "CPU accounting uses one sample",
+      "detail": "Total background CPU and required/optional/gaming/unknown/other components are now calculated from the same per-process sample, with the independent performance-counter average retained separately for context."
+    },
+    {
+      "heading": "Startup optimization is safer",
+      "detail": "FIX + OPTIMIZE automatically changes only repair-like safe startup entries such as dead unowned targets. Ordinary user-installed app autostarts require an explicit Startup Manager action, and scheduled tasks tied to another Windows user SID are always protected."
+    },
+    {
+      "heading": "Deep Clean no longer removes user recovery/cache data",
+      "detail": "Deep Clean no longer empties the Recycle Bin and no longer clears the DirectX shader cache. Recycle Bin size remains visible as preview-only information."
+    },
+    {
+      "heading": "Game Ready reporting clarified",
+      "detail": "PARTIAL Game Ready decisions now explicitly separate which child processes were CLOSED and why from which were KEPT and why, removing contradictory-looking safety text."
+    },
+    {
+      "heading": "Cleaner, consistent reports",
+      "detail": "Report serialization converts DateTime/DateTimeOffset values to ISO-8601 strings, omits the duplicated InstalledApps array when Rows already contains the same application inventory, and excludes bulky raw command-output fields from the consolidated JSON while retaining summarized evidence/log paths."
+    },
+    {
+      "heading": "RAM slot labels and WinGet noise improved",
+      "detail": "RAM summary lines now include both bank and device-locator labels when available. WinGet packages previously proven NotApplicable for the exact same offered version are suppressed on later runs until the offered version changes."
+    },
+    {
+      "heading": "Workflow wording corrected",
+      "detail": "The WinGet optimization step is now named for the verified application-upgrade workflow rather than implying that merely opening Command Prompt is the task."
+    },
+    {
+      "heading": "Defender baseline visibility improved",
+      "detail": "Tamper Protection off and a never-recorded Defender full scan are now surfaced as separate informational findings. PulseGuard does not force-enable Tamper Protection or automatically launch a long full scan during routine optimization."
     }
   ]
 }
