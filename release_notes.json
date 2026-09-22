@@ -1,8 +1,16 @@
 {
   "product": "PulseGuard PC",
-  "version": "0.6.40",
-  "summary": "PulseGuard v0.6.40 is a safety release: elevated helper scripts no longer run from user-writable folders, updates ask before installing and support release signing, Fix & Optimize no longer cleans the registry, wipes Quick Access pins or closes your apps, startup changes use the Task Manager method and can be undone run by run, and restore points, WinGet retry holds and report arrays now report the truth.",
+  "version": "0.6.41",
+  "summary": "PulseGuard v0.6.41 fixes a v0.6.40 crash at the end of Fix & Optimize, treats the Windows 24-hour restore point limit as expected instead of a warning, and cleans up several result messages. It keeps all v0.6.40 safety changes.",
   "sections": [
+    {
+      "heading": "Fix & Optimize finishes again",
+      "detail": "v0.6.40 crashed while writing the final summary because the Game Ready step no longer returns CPU before/after values. The post-fix rescan and final report now run normally."
+    },
+    {
+      "heading": "Clearer results",
+      "detail": "A restore point made earlier the same day is reported as SKIPPED (Windows allows one per 24 hours) instead of a warning, the restore-point message no longer repeats itself, Deep Clean only records a change when it actually deleted files, and suppressed WinGet packages now say why in the update window."
+    },
     {
       "heading": "Elevated helpers moved to a protected folder",
       "detail": "Scripts, specs and installers that PulseGuard runs as administrator now live in C:\\ProgramData\\PulseGuard PC Elevated, which only Administrators and SYSTEM can change. The Software Protection SYSTEM-task fallback and its Windows permission edits were removed. Apps closed by Game Ready are relaunched unelevated. Daily scheduled scans are refused (and removed) while PulseGuard is installed in a folder standard programs can modify."
