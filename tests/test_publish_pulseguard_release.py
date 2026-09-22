@@ -163,6 +163,91 @@ class ManifestGenerationTests(unittest.TestCase):
             self.assertEqual(self.mod.serialize_json(manifest1), self.mod.serialize_json(manifest2))
 
 
+def _dotnet_rsa_xml(key, private):
+    """Render a cryptography RSA key in the .NET <RSAKeyValue> format used by Sign-PulseGuardRelease.ps1."""
+    import base64
+    def b64(n, length=None):
+        length = length or max(1, (n.bit_length() + 7) // 8)
+        return base64.b64encode(n.to_bytes(length, 'big')).decode('ascii')
+    pub = key.public_key().public_numbers()
+    parts = [f'<Modulus>{b64(pub.n)}</Modulus>', f'<Exponent>{b64(pub.e)}</Exponent>']
+    if private:
+        pn = key.private_numbers()
+        parts += [f'<P>{b64(pn.p)}</P>', f'<Q>{b64(pn.q)}</Q>', f'<DP>{b64(pn.dmp1)}</DP>',
+                  f'<DQ>{b64(pn.dmq1)}</DQ>', f'<InverseQ>{b64(pn.iqmp)}</InverseQ>', f'<D>{b64(pn.d)}</D>']
+    return '<RSAKeyValue>' + ''.join(parts) + '</RSAKeyValue>'
+
+
+class SigningTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from cryptography.hazmat.primitives.asymmetric import rsa
+        cls.mod = load_module()
+        cls.key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        cls.other = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        cls.private_xml = _dotnet_rsa_xml(cls.key, True)
+        cls.public_xml = _dotnet_rsa_xml(cls.key, False)
+        cls.other_public_xml = _dotnet_rsa_xml(cls.other, False)
+
+    def _asset(self, tmp, pinned=''):
+        import zipfile
+        asset = Path(tmp) / 'PulseGuard_PC_v0.5.9.zip'
+        notes = {'schemaVersion': 1, 'product': 'PulseGuard PC', 'version': '0.5.9', 'items': []}
+        with zipfile.ZipFile(asset, 'w') as z:
+            z.writestr('PulseGuard_PC/Rules/release_notes.json', json.dumps(notes))
+            z.writestr('PulseGuard_PC/Runtime/Rules/release_notes.json', json.dumps(notes))
+            z.writestr('PulseGuard_PC/Runtime/PulseGuard_Updater.ps1',
+                       "$ErrorActionPreference='Stop'\n$script:PGReleasePublicKeyXml = '" + pinned + "'\n")
+        return asset
+
+    def _latest(self, asset):
+        return self.mod.build_latest_manifest('v0.5.9', '2026-09-02T09:00:00Z', 'PULSEGUARDPC/PulseGuard-Updates', asset)
+
+    def test_signature_matches_updater_format_and_verifies(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            asset = self._asset(tmp)
+            signed = self.mod.apply_release_signature(self._latest(asset), asset, self.private_xml)
+            self.assertIn('packageSignature', signed)
+            self.assertTrue(self.mod.verify_manifest_signature(signed, self.public_xml))
+            self.assertFalse(self.mod.verify_manifest_signature(signed, self.other_public_xml))
+            tampered = dict(signed, packageSha256='0' * 64)
+            self.assertFalse(self.mod.verify_manifest_signature(tampered, self.public_xml))
+
+    def test_unsigned_allowed_only_when_updater_pins_no_key(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            asset = self._asset(tmp)
+            self.assertNotIn('packageSignature', self.mod.apply_release_signature(self._latest(asset), asset, ''))
+            pinned_asset = self._asset(tmp, pinned=self.public_xml)
+            with self.assertRaisesRegex(ValueError, 'secret is not set'):
+                self.mod.apply_release_signature(self._latest(pinned_asset), pinned_asset, '')
+
+    def test_signing_key_must_match_pinned_key(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            asset = self._asset(tmp, pinned=self.other_public_xml)
+            with self.assertRaisesRegex(ValueError, 'does not match the public key pinned'):
+                self.mod.apply_release_signature(self._latest(asset), asset, self.private_xml)
+            good = self._asset(tmp, pinned=self.public_xml)
+            signed = self.mod.apply_release_signature(self._latest(good), good, self.private_xml)
+            self.assertTrue(self.mod.verify_manifest_signature(signed, self.public_xml))
+
+    def test_public_key_in_secret_is_rejected_with_clear_message(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            asset = self._asset(tmp)
+            with self.assertRaisesRegex(ValueError, 'PUBLIC key'):
+                self.mod.apply_release_signature(self._latest(asset), asset, self.public_xml)
+
+    def test_runtime_release_notes_must_match_root_copy(self):
+        import zipfile
+        with tempfile.TemporaryDirectory() as tmp:
+            asset = Path(tmp) / 'PulseGuard_PC_v0.5.9.zip'
+            notes = {'schemaVersion': 1, 'product': 'PulseGuard PC', 'version': '0.5.9'}
+            with zipfile.ZipFile(asset, 'w') as z:
+                z.writestr('PulseGuard_PC/Rules/release_notes.json', json.dumps(notes))
+                z.writestr('PulseGuard_PC/Runtime/Rules/release_notes.json', json.dumps(dict(notes, version='0.5.8')))
+            with self.assertRaisesRegex(ValueError, 'must be identical'):
+                self.mod.load_embedded_release_notes(asset, '0.5.9')
+
+
 class WorkflowContractTests(unittest.TestCase):
     def test_workflow_contains_required_release_contract(self):
         workflow = ROOT / '.github' / 'workflows' / 'publish-pulseguard-release.yml'
@@ -177,6 +262,8 @@ class WorkflowContractTests(unittest.TestCase):
             '.github/scripts/publish_pulseguard_release.py',
             'git add -- latest.json release_notes.json',
             'git diff --cached --quiet',
+            'PULSEGUARD_SIGNING_KEY: ${{ secrets.PULSEGUARD_SIGNING_KEY }}',
+            'cryptography',
         ]
         for item in required:
             with self.subTest(item=item):
